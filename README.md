@@ -1,6 +1,6 @@
 # WeightLossiOS
 
-This iOS application wirtten on swift is Weight Loss Utility app. The application has two primary features.
+This iOS application written on swift is a Weight Loss Utility. The application has two primary features.
 1. Pedometer (To track the amount of calories spent per day)
 2. Food Consumption Catalog (Entered by user through application’s user interface). 
 
