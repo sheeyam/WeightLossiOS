@@ -31,7 +31,6 @@ class SettingsViewController: UIViewController {
         enableDisableTouchIDSwitch.addTarget(self, action: #selector(SettingsViewController.stateChanged(_:)), for: UIControl.Event.valueChanged)
         // Do any additional setup after loading the view.
         formatter.dateFormat = "MM.dd.yyyy"
-        let currentDate = formatter.string(from: (self.date))
         
         showData()
         

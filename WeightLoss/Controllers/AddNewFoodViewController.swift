@@ -96,7 +96,7 @@ class AddNewFoodViewController: UIViewController {
             }
             
             if let labelType = self.mealTimeLbl {
-                labelType.text = (detail.value(forKey: "type")! as! AnyObject).description
+                labelType.text = (detail.value(forKey: "type")! as AnyObject).description
             }
         }
     }

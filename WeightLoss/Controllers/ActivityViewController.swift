@@ -77,7 +77,6 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
         } else {
             return 0
         }
-        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -177,7 +176,6 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
         let SpentCalCount = Int(UserDefaults.standard.integer(forKey: "SpentCalCount_" + formatter.string(from: day!)))
         
         print(Int(UserDefaults.standard.integer(forKey: "StepsCount_" + formatter.string(from: day!))))
-        let StepsCount = Int(UserDefaults.standard.integer(forKey: "StepsCount_" + formatter.string(from: day!)))
         let targetCalCount = UserDefaults.standard.integer(forKey: "TargetCalCount_" + formatter.string(from: day!))
         
         activityDate.append(formatter.string(from: day!))

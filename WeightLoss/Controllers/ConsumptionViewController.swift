@@ -240,10 +240,6 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
     func getFood (index: Int) {
         let x = food[index]
         let type = x.value(forKeyPath: "type") as? String
-        print(x.value(forKeyPath: "name") as? String)
-        print(x.value(forKeyPath: "calorie") as? Double)
-        print(x.value(forKeyPath: "type") as? String)
-        print(x.value(forKeyPath: "date") as? Date)
         
         if type == "Breakfast" {
             foodB.append((x.value(forKeyPath: "name") as? String)!)
@@ -337,7 +333,6 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
         let dateFrom = calendar.startOfDay(for: Date()) // eg. 2016-10-10 00:00:00
         print(dateFrom)
         let dateTo = calendar.date(byAdding: .day, value: 1, to: dateFrom)
-        print(dateTo)
         // Note: Times are printed in UTC. Depending on where you live it won't print 00:00:00 but it will work with UTC times which can be converted to local time
         
         // Set predicate as date being today's date
@@ -351,9 +346,6 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
             let consumptions = results as! [Consume]
             
             for _consumption in consumptions {
-                print(_consumption.name!)
-                print(_consumption.calorie)
-                print(_consumption.type)
                 
                 if (foodDictionary[_consumption.type!] == nil) {
                     // now val is not nil and the Optional has been unwrapped, so use it
