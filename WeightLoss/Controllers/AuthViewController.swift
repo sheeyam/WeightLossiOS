@@ -12,11 +12,27 @@ import LocalAuthentication
 class AuthViewController: UIViewController {
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        navigateToHomeViewController()
-        
-        //TODO: Face ID
+        super.viewDidLoad()        
+        //Authenticate User with Face ID
+        AuthenticateUser()
+    }
+    
+    func AuthenticateUser(){
+        let context = LAContext()
+        var error: NSError? = nil
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Please authorize with Face ID"
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) {
+                [weak self] success, error in
+                guard success,error == nil else {
+                    //failed
+                    return
+                }
+                self?.navigateToHomeViewController()
+            }
+        } else {
+            navigateToHomeViewController()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

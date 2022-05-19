@@ -15,28 +15,25 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var setTargetTextField: UITextField!
     @IBOutlet weak var setWeightTextField: UITextField!
     
-    let date = Date()
     let formatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if(UserDefaults.standard.bool(forKey: "touchID")) {
-            print("touchID Enabled")
-            enableDisableTouchIDSwitch.setOn(true, animated: true)
-        } else {
-            print("touchID Disabled")
-            enableDisableTouchIDSwitch.setOn(false, animated: false)
-        }
-        enableDisableTouchIDSwitch.addTarget(self, action: #selector(SettingsViewController.stateChanged(_:)), for: UIControl.Event.valueChanged)
-        // Do any additional setup after loading the view.
-        formatter.dateFormat = "MM.dd.yyyy"
-        
-        showData()
-        
+        formatter.dateFormat = Constants.commonDF
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:#selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
+        setupInitialData()
+    }
+    
+    func setupInitialData(){
+        if(UserDefaults.standard.bool(forKey: Constants.userDefaultKeys.faceID)) {
+            enableDisableTouchIDSwitch.setOn(true, animated: true)
+        } else {
+            enableDisableTouchIDSwitch.setOn(false, animated: false)
+        }
+        enableDisableTouchIDSwitch.addTarget(self, action: #selector(SettingsViewController.stateChanged(_:)), for: UIControl.Event.valueChanged)
+        showData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -51,50 +48,26 @@ class SettingsViewController: UIViewController {
     @IBAction func stateChanged(_ sender: Any) {
         if enableDisableTouchIDSwitch.isOn {
             print("The TouchID Switch is On")
-            UserDefaults.standard.set(true, forKey: "touchID") //Bool
-            //UserDefaults.standard.set(1, forKey: "Key")  //Integer
-            //UserDefaults.standard.set("TEST", forKey: "Key") //setObject
+            UserDefaults.standard.set(true, forKey: Constants.userDefaultKeys.faceID)
         } else {
             print("The TouchID Switch is Off")
-            UserDefaults.standard.set(false, forKey: "touchID") //Bool
+            UserDefaults.standard.set(false, forKey: Constants.userDefaultKeys.faceID)
         }
     }
     
     func showData() {
-        
-        formatter.dateFormat = "MM.dd.yyyy"
-        let currentDate = self.formatter.string(from: (self.date))
-        
-        if (UserDefaults.standard.string(forKey: "TargetCalCount_" + currentDate) ?? "").isEmpty {
-            setTargetTextField.text = ""
-        } else {
-            setTargetTextField.text = UserDefaults.standard.string(forKey: "TargetCalCount_" + currentDate)
-        }
-        
-        if (UserDefaults.standard.string(forKey: "Name") ?? "").isEmpty {
-            setNameTextField.text = ""
-        } else {
-            setNameTextField.text = UserDefaults.standard.string(forKey: "Name")
-        }
-        
-        if (UserDefaults.standard.string(forKey: "Weight") ?? "").isEmpty {
-            setWeightTextField.text = ""
-        } else {
-            setWeightTextField.text = UserDefaults.standard.string(forKey: "Weight")
-        }
+        let currentDate = self.formatter.string(from: Date())
+        setNameTextField.text = UserDefaults.standard.string(forKey: Constants.userDefaultKeys.name) ?? ""
+        setWeightTextField.text = UserDefaults.standard.string(forKey: Constants.userDefaultKeys.weight) ?? ""
+        setTargetTextField.text = UserDefaults.standard.string(forKey: Constants.userDefaultKeys.target + currentDate) ?? ""
     }
     
-    @IBAction func goBack(_ sender: Any) {
-        
-    }
     
     @IBAction func saveSettingsData(_ sender: Any) {
-        formatter.dateFormat = "MM.dd.yyyy"
-        let currentDate = self.formatter.string(from: (self.date))
-        
-        UserDefaults.standard.set(setNameTextField?.text, forKey: "Name")
-        UserDefaults.standard.set(setWeightTextField?.text, forKey: "Weight")
-        UserDefaults.standard.set(setTargetTextField?.text, forKey: "TargetCalCount_" + currentDate)
+        let currentDate = self.formatter.string(from: Date())
+        UserDefaults.standard.set(setNameTextField?.text, forKey: Constants.userDefaultKeys.name)
+        UserDefaults.standard.set(setWeightTextField?.text, forKey: Constants.userDefaultKeys.weight)
+        UserDefaults.standard.set(setTargetTextField?.text, forKey: Constants.userDefaultKeys.target + currentDate)
     }
     
     @IBAction func logout(_ sender: Any) {

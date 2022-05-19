@@ -36,6 +36,10 @@
 		62E5A8572179ACF900F51039 /* appicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E5A8552179ACF800F51039 /* appicon.png */; };
 		E556502A2836AB8600B3945B /* HomeViewController+Pedometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55650292836AB8600B3945B /* HomeViewController+Pedometer.swift */; };
 		E556502C2836AD2600B3945B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E556502B2836AD2600B3945B /* Constants.swift */; };
+		E556502E2836F00600B3945B /* ActivityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E556502D2836F00600B3945B /* ActivityModel.swift */; };
+		E55650302836F8D300B3945B /* AngleCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E556502F2836F8D300B3945B /* AngleCalculator.swift */; };
+		E55650322836FC3D00B3945B /* FoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55650312836FC3D00B3945B /* FoodModel.swift */; };
+		E556503428370DBE00B3945B /* ConsumptionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E556503328370DBE00B3945B /* ConsumptionModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +74,10 @@
 		62E5A8552179ACF800F51039 /* appicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appicon.png; sourceTree = "<group>"; };
 		E55650292836AB8600B3945B /* HomeViewController+Pedometer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewController+Pedometer.swift"; sourceTree = "<group>"; };
 		E556502B2836AD2600B3945B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		E556502D2836F00600B3945B /* ActivityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityModel.swift; sourceTree = "<group>"; };
+		E556502F2836F8D300B3945B /* AngleCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngleCalculator.swift; sourceTree = "<group>"; };
+		E55650312836FC3D00B3945B /* FoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodModel.swift; sourceTree = "<group>"; };
+		E556503328370DBE00B3945B /* ConsumptionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumptionModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +143,9 @@
 			isa = PBXGroup;
 			children = (
 				621D4B92214E3D8200CE8A52 /* WeightLoss.xcdatamodeld */,
+				E556502D2836F00600B3945B /* ActivityModel.swift */,
+				E55650312836FC3D00B3945B /* FoodModel.swift */,
+				E556503328370DBE00B3945B /* ConsumptionModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -151,6 +162,7 @@
 		E55650252836A79600B3945B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				E556502F2836F8D300B3945B /* AngleCalculator.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -277,19 +289,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				628B230021816AA700A167FF /* AddFoodViewController.swift in Sources */,
+				E55650302836F8D300B3945B /* AngleCalculator.swift in Sources */,
 				E556502A2836AB8600B3945B /* HomeViewController+Pedometer.swift in Sources */,
 				621D4BA3214E460E00CE8A52 /* HomeViewController.swift in Sources */,
 				621D4BA1214E407100CE8A52 /* AuthViewController.swift in Sources */,
 				62BEAE7D21821D0400734924 /* AddNewFoodViewController.swift in Sources */,
+				E556502E2836F00600B3945B /* ActivityModel.swift in Sources */,
 				E556502C2836AD2600B3945B /* Constants.swift in Sources */,
 				626BC940215216280099D28D /* SettingsViewController.swift in Sources */,
 				6280316F2185E3F7009E55E0 /* HistoryViewCell.swift in Sources */,
 				621D4B94214E3D8200CE8A52 /* WeightLoss.xcdatamodeld in Sources */,
 				6260B66F21569232008DA44F /* ActivityViewController.swift in Sources */,
 				6260B65421567D98008DA44F /* KDCircularProgress.swift in Sources */,
+				E55650322836FC3D00B3945B /* FoodModel.swift in Sources */,
 				621D4B8C214E3D8100CE8A52 /* AppDelegate.swift in Sources */,
 				62919CB921BCEE360090661D /* CustomConsumeCell.swift in Sources */,
 				62DC0F04214F67EC0031EB10 /* ConsumptionViewController.swift in Sources */,
+				E556503428370DBE00B3945B /* ConsumptionModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

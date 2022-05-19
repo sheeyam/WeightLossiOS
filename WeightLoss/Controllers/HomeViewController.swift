@@ -16,6 +16,7 @@ class HomeViewController: UIViewController {
     let pedometer = CMPedometer()
     var shouldStartUpdating: Bool = false
     var startDate: Date? = nil
+    let angleCalc = AngleCalculator()
     
     @IBOutlet weak var consumedProgressView: KDCircularProgress!
     @IBOutlet weak var burntProgressView: KDCircularProgress!
@@ -61,63 +62,60 @@ class HomeViewController: UIViewController {
     }
     
     func loadContent(){
-        if (UserDefaults.standard.string(forKey: "Name") ?? "").isEmpty {
+        if (UserDefaults.standard.string(forKey: Constants.userDefaultKeys.name) ?? "").isEmpty {
             userLbl.text = "Hi, Guest"
         } else {
-            userLbl.text = "Hi, " + UserDefaults.standard.string(forKey: "Name")!
+            userLbl.text = "Hi, " + UserDefaults.standard.string(forKey: Constants.userDefaultKeys.name)!
         }
         
-        formatter.dateFormat = "MM.dd.yyyy"
+        formatter.dateFormat = Constants.commonDF
         let currentDate = self.formatter.string(from: (self.date))
         
         //Set Consumed Calorie Count
-        consumedCalCount = Double(UserDefaults.standard.integer(forKey: "ConsumedCal_" + currentDate))
-        targetCalCount = Double(UserDefaults.standard.integer(forKey: "TargetCalCount_" + currentDate))
-        consumedLbl.text = String(UserDefaults.standard.integer(forKey: "ConsumedCal_" + currentDate))
-        targetLbl.text = "Target: " + String(UserDefaults.standard.integer(forKey: "TargetCalCount_" + currentDate))
-        spentCalCount = Double(UserDefaults.standard.integer(forKey: "SpentCalCount_" + currentDate))
-        stepsCount = Int(UserDefaults.standard.integer(forKey: "StepsCount_" + currentDate))
+        consumedCalCount = Double(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.consumed + currentDate))
+        targetCalCount = Double(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + currentDate))
+        consumedLbl.text = String(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.consumed + currentDate))
+        targetLbl.text = "Target: " + String(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + currentDate))
+        spentCalCount = Double(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + currentDate))
+        stepsCount = Int(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.steps + currentDate))
         
-        if (0 == UserDefaults.standard.integer(forKey: "TargetCalCount_" + currentDate)) {
-            consumedProgressNumberLabel.text = "0%"
-            burntProgressNumberLabel.text = "0%"
+        if (0 == UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + currentDate)) {
+            consumedProgressNumberLabel.text = Constants.progressStrings.progressZero
+            burntProgressNumberLabel.text = Constants.progressStrings.progressZero
         } else {
             
-            if (0 == UserDefaults.standard.integer(forKey: "SpentCalCount_" + currentDate)) {
-                burntProgressNumberLabel.text = "0%"
+            if (0 == UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + currentDate)) {
+                burntProgressNumberLabel.text = Constants.progressStrings.progressZero
             } else {
                 if Int(spentCalCount * 100 / (targetCalCount)) < 100 {
                     burntProgressNumberLabel.text = String(Int(spentCalCount * 100 / (targetCalCount))) + "%"
-                    burntProgressView.trackColor = UIColor(red: 236.0/255, green: 73.0/255, blue: 34.0/255, alpha: 1)
+                    burntProgressView.trackColor = Constants.colors.color01
                 } else if Int(spentCalCount * 100 / (targetCalCount)) == 100 {
                     burntProgressNumberLabel.text = String(Int(spentCalCount * 100 / (targetCalCount))) + "%"
-                    burntProgressView.trackColor = UIColor(red: 236.0/255, green: 199.0/255, blue: 52.0/255, alpha: 1)
+                    burntProgressView.trackColor = Constants.colors.color02
                 } else {
-                    burntProgressNumberLabel.text = "100%"
-                    burntProgressView.trackColor = UIColor(red: 79.0/255, green: 178.0/255, blue: 52.0/255, alpha: 1)
+                    burntProgressNumberLabel.text = Constants.progressStrings.progressHundred
+                    burntProgressView.trackColor = Constants.colors.color03
                 }
             }
             
-            if (0 == UserDefaults.standard.integer(forKey: "ConsumedCal_" + currentDate)) {
-                consumedProgressNumberLabel.text = "0%"
+            if (0 == UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.consumed + currentDate)) {
+                consumedProgressNumberLabel.text = Constants.progressStrings.progressZero
             } else {
                 if Int(consumedCalCount * 100 / (targetCalCount)) < 100 {
                     consumedProgressNumberLabel.text = String(Int(consumedCalCount * 100 / (targetCalCount))) + "%"
-                    consumedProgressView.trackColor = UIColor(red: 236.0/255, green: 199.0/255, blue: 52.0/255, alpha: 1)
+                    consumedProgressView.trackColor = Constants.colors.color02
                 } else if Int(consumedCalCount * 100 / (targetCalCount)) == 100 {
                     consumedProgressNumberLabel.text = String(Int(consumedCalCount * 100 / (targetCalCount))) + "%"
-                    consumedProgressView.trackColor = UIColor(red: 79.0/255, green: 178.0/255, blue: 52.0/255, alpha: 1)
+                    consumedProgressView.trackColor = Constants.colors.color03
                 } else {
-                    consumedProgressNumberLabel.text = "100%"
-                    consumedProgressView.trackColor = UIColor(red: 236.0/255, green: 73.0/255, blue: 34.0/255, alpha: 1)
+                    consumedProgressNumberLabel.text = Constants.progressStrings.progressHundred
+                    consumedProgressView.trackColor = Constants.colors.color01
                 }
             }
             
             stepsLbl.text = String(stepsCount)
             spentLbl.text = String(Int(spentCalCount))
-            print(spentCalCount)
-            print(targetCalCount)
-            print(consumedCalCount)
             
             if (consumedCalCount > spentCalCount) {
                 netCalCount = consumedCalCount - spentCalCount
@@ -126,41 +124,13 @@ class HomeViewController: UIViewController {
             }
             netLbl.text = "Net Calories: " + String(Int(netCalCount))
             
-            //if consumedCalCount != (targetCalCount) {
-                consumedCalCount += 1
-                let newConsumedAngleValue = newAngleConsumed()
-                consumedProgressView.animate(toAngle: newConsumedAngleValue, duration: 1.0, completion: nil)
-            //}
+            consumedCalCount += 1
+            let newConsumedAngleValue = angleCalc.newAngleConsumed(consumed: consumedCalCount, target: targetCalCount)
+            consumedProgressView.animate(toAngle: newConsumedAngleValue, duration: 1.0, completion: nil)
             
-            //if spentCalCount != (targetCalCount) {
-                spentCalCount += 1
-                let newburntAngleValue = newAngleSpent()
-                burntProgressView.animate(toAngle: newburntAngleValue, duration: 1.0, completion: nil)
-            //}
-        }
-    }
-    
-    func newAngleSpent() -> Double {
-        if 360 * (spentCalCount / targetCalCount) <= 360 {
-            return 360 * (spentCalCount / targetCalCount)
-        } else if 360 * (spentCalCount / targetCalCount) > 360 {
-            return 360
-        } else if 360 * (spentCalCount / targetCalCount) < 0 {
-            return 0
-        } else {
-            return 360
-        }
-    }
-    
-    func newAngleConsumed() -> Double {
-        if 360 * (consumedCalCount / targetCalCount) <= 360 {
-            return 360 * (consumedCalCount / targetCalCount)
-        } else if 360 * (consumedCalCount / targetCalCount) > 360 {
-            return 360
-        } else if 360 * (consumedCalCount / targetCalCount) < 0 {
-            return 0
-        } else {
-            return 360
+            spentCalCount += 1
+            let newburntAngleValue = angleCalc.newAngleSpent(spent: spentCalCount, target: targetCalCount)
+            burntProgressView.animate(toAngle: newburntAngleValue, duration: 1.0, completion: nil)
         }
     }
     

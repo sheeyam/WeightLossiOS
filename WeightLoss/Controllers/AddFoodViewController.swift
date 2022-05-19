@@ -12,19 +12,8 @@ import CoreData
 class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     let date = Date()
     var consumption: [NSManagedObject] = []
-    
-    var foodB: [String] = []
-    var foodBC: [Int] = []
-    
-    var foodL: [String] = []
-    var foodLC: [Int] = []
-    
-    var foodD: [String] = []
-    var foodDC: [Int] = []
-    
-    var foodS: [String] = []
-    var foodSC: [Int] = []
-    
+    var consumptionData: [ConsumptionModel] = []
+
     @IBOutlet weak var mealTimeLbl: UILabel!
     @IBOutlet weak var foodCountTextField: UITextField!
     @IBOutlet weak var foodCalTextField: UITextField!
@@ -79,14 +68,8 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     }
     
     func fillArrays(){
-        foodB.removeAll()
-        foodL.removeAll()
-        foodD.removeAll()
-        foodS.removeAll()
-        foodBC.removeAll()
-        foodLC.removeAll()
-        foodDC.removeAll()
-        foodSC.removeAll()
+        
+        consumptionData.removeAll()
         
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Food")
@@ -100,28 +83,14 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
                 print(_food.calorie)
                 print(_food.type!)
                 
-                if _food.type == "Breakfast" {
-                    foodB.append(_food.name!)
-                    foodBC.append(Int(_food.calorie))
-                } else if _food.type == "Lunch" {
-                    foodL.append(_food.name!)
-                    foodLC.append(Int(_food.calorie))
-                } else if _food.type == "Dinner" {
-                    foodD.append(_food.name!)
-                    foodDC.append(Int(_food.calorie))
-                } else if _food.type == "Snacks" {
-                    foodS.append(_food.name!)
-                    foodSC.append(Int(_food.calorie))
-                } else {
-                    //Do nothing
-                }
+                let consumption = ConsumptionModel(foodName: _food.name!, foodCalorie: Int(_food.calorie), foodType: _food.type!)
+                consumptionData.append(consumption)
                 foodPickerView.reloadAllComponents()
                 
-                let sumBC = foodBC.reduce(0, +)
-                let sumLC = foodLC.reduce(0, +)
-                let sumDC = foodDC.reduce(0, +)
-                let sumSC = foodSC.reduce(0, +)
-                let totalSum = sumBC + sumLC + sumDC + sumSC
+                var totalSum = 0
+                for con in consumptionData {
+                    totalSum += con.foodCalorie
+                }
                 print(totalSum)
             }
         } catch let err as NSError {
@@ -154,48 +123,18 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if mealTime == "Breakfast" {
-            return foodB.count
-        } else if mealTime == "Lunch" {
-            return foodL.count
-        } else if mealTime == "Dinner" {
-            return foodD.count
-        } else {
-            return foodS.count
-        }
+        return consumptionData.filter({$0.foodType.uppercased() == mealTime.uppercased()}).count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if mealTime == "Breakfast" {
-            return foodB[row]
-        } else if mealTime == "Lunch" {
-            return foodL[row]
-        } else if mealTime == "Dinner" {
-            return foodD[row]
-        } else {
-            return foodS[row]
-        }
+        return consumptionData[row].foodName
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
     {
-        if mealTime == "Breakfast" {
-            foodNameTextField.text = foodB[row]
-            foodCalTextField.text = String(foodBC[row])
-            foodCountTextField.text = "1"
-        } else if mealTime == "Lunch" {
-            foodNameTextField.text = foodL[row]
-            foodCalTextField.text = String(foodLC[row])
-            foodCountTextField.text = "1"
-        } else if mealTime == "Dinner" {
-            foodNameTextField.text = foodD[row]
-            foodCalTextField.text = String(foodDC[row])
-            foodCountTextField.text = "1"
-        } else {
-            foodNameTextField.text = foodS[row]
-            foodCalTextField.text = String(foodSC[row])
-            foodCountTextField.text = "1"
-        }
+        foodNameTextField.text = consumptionData[row].foodName
+        foodCalTextField.text = String(consumptionData[row].foodCalorie)
+        foodCountTextField.text = "1"
         foodPickerView.isHidden = true
     }
     

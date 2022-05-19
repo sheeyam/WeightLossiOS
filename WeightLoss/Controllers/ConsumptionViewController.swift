@@ -13,28 +13,8 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
     
     var food: [NSManagedObject] = []
     var consumption: [NSManagedObject] = []
-    
     var foodDictionary = Dictionary<String, Array<NSManagedObject>>()
-    
-    var foodB: [String] = []
-    var foodBC: [Int] = []
-    var foodBIC: [Int] = []
-    var foodBQ: [Int16] = []
-    
-    var foodL: [String] = []
-    var foodLC: [Int] = []
-    var foodLIC: [Int] = []
-    var foodLQ: [Int16] = []
-    
-    var foodD: [String] = []
-    var foodDC: [Int] = []
-    var foodDIC: [Int] = []
-    var foodDQ: [Int16] = []
-    
-    var foodS: [String] = []
-    var foodSC: [Int] = []
-    var foodSIC: [Int] = []
-    var foodSQ: [Int16] = []
+    var foodData: [FoodModel] = []
     
     @IBOutlet weak var dateLbl: UILabel!
     @IBOutlet weak var mealSegmentCtl: UISegmentedControl!
@@ -52,8 +32,8 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        mealTime = "Breakfast"
-        formatter.dateFormat = "MM.dd.yyyy"
+        mealTime = Constants.meals.breakfast
+        formatter.dateFormat = Constants.commonDF
         let currentDate = formatter.string(from: date)
         dateLbl.text = currentDate
         
@@ -64,7 +44,6 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewDidAppear(_ animated: Bool) {
         super .viewDidAppear(true)
         // Do any additional setup after loading the view.
-        formatter.dateFormat = "MM.dd.yyyy"
         let currentDate = formatter.string(from: date)
         dateLbl.text = currentDate
         
@@ -85,13 +64,13 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
         switch mealSegmentCtl.selectedSegmentIndex
         {
         case 0:
-            mealTime = "Breakfast"
+            mealTime = Constants.meals.breakfast
         case 1:
-            mealTime = "Lunch"
+            mealTime = Constants.meals.lunch
         case 2:
-            mealTime = "Dinner"
+            mealTime = Constants.meals.dinner
         case 3:
-            mealTime = "Snacks"
+            mealTime = Constants.meals.snacks
         default:
             break
         }
@@ -99,39 +78,13 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ foodTableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if mealTime == "Breakfast" {
-            return foodB.count
-        } else if mealTime == "Lunch" {
-            return foodL.count
-        } else if mealTime == "Dinner" {
-            return foodD.count
-        } else if mealTime == "Snacks" {
-            return foodS.count
-        } else {
-            return foodB.count
-        }
+        return foodData.filter({$0.foodType.uppercased() == mealTime.uppercased()}).count
     }
     
     func tableView(_ foodTableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // your cell coding
         let cell:CustomConsumeCell = foodTableView.dequeueReusableCell(withIdentifier: "foodcell", for: indexPath) as! CustomConsumeCell
-        //let cell = foodTableView.dequeueReusableCell(withIdentifier: "foodcell", for: indexPath)
-        if mealTime == "Breakfast" {
-            cell.foodLbl?.text = foodB[indexPath.row]
-            cell.calLbl?.text = String(foodBC[indexPath.row]) + " Cals"
-        } else if mealTime == "Lunch" {
-            cell.foodLbl?.text = foodL[indexPath.row]
-            cell.calLbl?.text = String(foodLC[indexPath.row]) + " Cals"
-        } else if mealTime == "Dinner" {
-            cell.foodLbl?.text = foodD[indexPath.row]
-            cell.calLbl?.text = String(foodDC[indexPath.row]) + " Cals"
-        } else if mealTime == "Snacks" {
-            cell.foodLbl?.text = foodS[indexPath.row]
-            cell.calLbl?.text = String(foodSC[indexPath.row]) + " Cals"
-        } else {
-            cell.foodLbl?.text = foodB[indexPath.row]
-            cell.calLbl?.text = String(foodBC[indexPath.row]) + " Cals"
-        }
+        cell.configureCell(foodData: foodData[indexPath.row])
         return cell
     }
     
@@ -140,7 +93,7 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
         index = indexPath.row
         //  print(index)
         op = "update"
-        performSegue(withIdentifier: "consumption2addnew", sender: nil)
+        performSegue(withIdentifier: Constants.segues.consumptionToAddnew, sender: nil)
     }
     
     func showAddFoodConsumptionAlert(){
@@ -175,16 +128,15 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
     
     func goToAddNewFoodVC() {
         op = "add"
-        self.performSegue(withIdentifier: "consumption2addnew", sender: self)
+        self.performSegue(withIdentifier: Constants.segues.consumptionToAddnew, sender: self)
     }
     
     func goToNewFoodVC() {
-        self.performSegue(withIdentifier: "consumption2add", sender: self)
+        self.performSegue(withIdentifier: Constants.segues.consumptionToAdd, sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        NSLog("prepareForSegue", "prepareForSegue")
-        if segue.identifier == "consumption2addnew"{
+        if segue.identifier == Constants.segues.consumptionToAddnew{
             let DestViewController = segue.destination as! UINavigationController
             let targetController = DestViewController.topViewController as! AddNewFoodViewController
             targetController.mealTime = mealTime
@@ -196,7 +148,7 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
                 targetController.operation = op
                 targetController.consumptionItem = consumptionItem as AnyObject
             }
-        } else if segue.identifier == "consumption2add"{
+        } else if segue.identifier == Constants.segues.consumptionToAdd {
             let DestViewController = segue.destination as! UINavigationController
             let targetController = DestViewController.topViewController as! AddFoodViewController
             targetController.mealTime = mealTime
@@ -239,35 +191,16 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
     
     func getFood (index: Int) {
         let x = food[index]
-        let type = x.value(forKeyPath: "type") as? String
-        
-        if type == "Breakfast" {
-            foodB.append((x.value(forKeyPath: "name") as? String)!)
-        } else if type == "Lunch" {
-            foodL.append((x.value(forKeyPath: "name") as? String)!)
-        } else if type == "Dinner" {
-            foodD.append((x.value(forKeyPath: "name") as? String)!)
-        } else if type == "Snacks" {
-            foodS.append((x.value(forKeyPath: "name") as? String)!)
-        } else {
-            //Do nothing
-        }
+        foodData[index].foodName = (x.value(forKeyPath: "name") as? String)!
         foodTableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if(editingStyle == UITableViewCell.EditingStyle.delete){
             let index = indexPath.row
+            foodData.remove(at: index)
             if (!(foodDictionary[mealTime])!.isEmpty){
-                if mealTime == "Breakfast" {
-                    foodB.remove(at: index)
-                } else if mealTime == "Lunch" {
-                    foodL.remove(at: index)
-                } else if mealTime == "Dinner" {
-                    foodD.remove(at: index)
-                } else if mealTime == "Snacks" {
-                    foodS.remove(at: index)
-                }
+                
                 let foodList : [NSManagedObject] = foodDictionary[mealTime]!
                 let foodToBeDeleted = foodList[index]
                 print(foodList)
@@ -302,26 +235,10 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func fillArrays(){
-        foodB.removeAll()
-        foodL.removeAll()
-        foodD.removeAll()
-        foodS.removeAll()
-        
-        foodBC.removeAll()
-        foodLC.removeAll()
-        foodDC.removeAll()
-        foodSC.removeAll()
-        
-        foodBQ.removeAll()
-        foodLQ.removeAll()
-        foodDQ.removeAll()
-        foodSQ.removeAll()
-        
+        foodData.removeAll()
         foodDictionary.removeAll()
         
-        formatter.dateFormat = "MM.dd.yyyy"
         let currentDate = self.formatter.string(from: (self.date))
-        
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Consume")
         
@@ -331,7 +248,6 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
         
         // Get today's beginning & end
         let dateFrom = calendar.startOfDay(for: Date()) // eg. 2016-10-10 00:00:00
-        print(dateFrom)
         let dateTo = calendar.date(byAdding: .day, value: 1, to: dateFrom)
         // Note: Times are printed in UTC. Depending on where you live it won't print 00:00:00 but it will work with UTC times which can be converted to local time
         
@@ -353,40 +269,19 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
                 }
                 foodDictionary[_consumption.type!]?.append(_consumption)
                 
-                if _consumption.type == "Breakfast" {
-                    foodB.append(_consumption.name!)
-                    foodBC.append(Int(_consumption.calorie))
-                    foodBIC.append(Int(_consumption.icalorie))
-                    foodBQ.append(_consumption.count)
-                } else if _consumption.type == "Lunch" {
-                    foodL.append(_consumption.name!)
-                    foodLC.append(Int(_consumption.calorie))
-                    foodLIC.append(Int(_consumption.icalorie))
-                    foodLQ.append(_consumption.count)
-                } else if _consumption.type == "Dinner" {
-                    foodD.append(_consumption.name!)
-                    foodDC.append(Int(_consumption.calorie))
-                    foodDIC.append(Int(_consumption.icalorie))
-                    foodDQ.append(_consumption.count)
-                } else if _consumption.type == "Snacks" {
-                    foodS.append(_consumption.name!)
-                    foodSC.append(Int(_consumption.calorie))
-                    foodSIC.append(Int(_consumption.icalorie))
-                    foodSQ.append(_consumption.count)
-                } else {
-                    //Do nothing
-                }
+                let food = FoodModel(foodName: _consumption.name!, foodType: _consumption.type!, foodDate: "", foodCount: Int(_consumption.count), foodCalorie: Int(_consumption.calorie), foodICalorie: Int(_consumption.icalorie))
+                foodData.append(food)
                 foodTableView.reloadData()
             }
-            let sumBC = foodBC.reduce(0, +)
-            let sumLC = foodLC.reduce(0, +)
-            let sumDC = foodDC.reduce(0, +)
-            let sumSC = foodSC.reduce(0, +)
-            let totalSum = sumBC + sumLC + sumDC + sumSC
+            
+            var totalSum = 0
+            for food in foodData {
+                totalSum += food.foodCalorie
+            }
             print(totalSum)
             consumedCalorieLbl.text = String(totalSum) + " Cal"
             
-            UserDefaults.standard.set(String(totalSum), forKey: "ConsumedCal_" + currentDate)  //Integer
+            UserDefaults.standard.set(String(totalSum), forKey: Constants.userDefaultKeys.consumed + currentDate)  //Integer
         } catch let err as NSError {
             print(err.debugDescription)
         }

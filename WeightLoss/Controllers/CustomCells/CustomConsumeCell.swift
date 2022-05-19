@@ -23,5 +23,10 @@ class CustomConsumeCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func configureCell(foodData: FoodModel){
+        foodLbl?.text = foodData.foodName
+        calLbl?.text = String(foodData.foodCalorie) + " Cals"
+    }
 
 }

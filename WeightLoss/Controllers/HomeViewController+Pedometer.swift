@@ -104,13 +104,13 @@ extension HomeViewController {
             DispatchQueue.main.async {
                 let currentDate = self?.formatter.string(from: (self?.date)!)
                 
-                self?.sc = UserDefaults.standard.integer(forKey: "StepsCount_" + currentDate!) + Int(truncating: pedometerData.numberOfSteps)
-                self?.spc = UserDefaults.standard.integer(forKey: "SpentCalCount_" + currentDate!) + Int(pedometerData.numberOfSteps.intValue * (self?.caloriePerStep)!)
+                self?.sc = UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.steps + currentDate!) + Int(truncating: pedometerData.numberOfSteps)
+                self?.spc = UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + currentDate!) + Int(pedometerData.numberOfSteps.intValue * (self?.caloriePerStep)!)
                 
-                UserDefaults.standard.set(self?.sc, forKey: "StepsCount_" + currentDate!)  //Integer
+                UserDefaults.standard.set(self?.sc, forKey: Constants.userDefaultKeys.steps + currentDate!)  //Integer
                 print(self?.sc ?? 0)
                 
-                UserDefaults.standard.set(self?.spc, forKey: "SpentCalCount_" + currentDate!)  //Integer
+                UserDefaults.standard.set(self?.spc, forKey: Constants.userDefaultKeys.spent + currentDate!)  //Integer
                 print(self?.spc ?? 0)
             }
         }
