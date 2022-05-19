@@ -100,14 +100,13 @@
 		621D4B8A214E3D8100CE8A52 /* WeightLoss */ = {
 			isa = PBXGroup;
 			children = (
-				6260B6702156931D008DA44F /* helpers */,
-				6260B655215685EA008DA44F /* Assets */,
-				62DC0F06214F87E40031EB10 /* UIView */,
-				62DC0F05214F87C40031EB10 /* ViewControllers */,
-				62DC0F07214F87F50031EB10 /* Model */,
-				621D4B8B214E3D8100CE8A52 /* AppDelegate.swift */,
-				621D4B95214E3D8A00CE8A52 /* Assets.xcassets */,
 				621D4B9A214E3D8A00CE8A52 /* Info.plist */,
+				E55650282836A81300B3945B /* Common */,
+				62DC0F07214F87F50031EB10 /* Model */,
+				E55650242836A79000B3945B /* View */,
+				E55650252836A79600B3945B /* ViewModel */,
+				E55650262836A7AD00B3945B /* Controllers */,
+				6260B6702156931D008DA44F /* helpers */,
 			);
 			path = WeightLoss;
 			sourceTree = "<group>";
@@ -134,35 +133,8 @@
 		6260B6702156931D008DA44F /* helpers */ = {
 			isa = PBXGroup;
 			children = (
-				6260B65321567D98008DA44F /* KDCircularProgress.swift */,
 			);
 			path = helpers;
-			sourceTree = "<group>";
-		};
-		62DC0F05214F87C40031EB10 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				621D4BA0214E407100CE8A52 /* AuthViewController.swift */,
-				621D4BA2214E460E00CE8A52 /* HomeViewController.swift */,
-				621D4BA4214E52E300CE8A52 /* PedoViewController.swift */,
-				62DC0F03214F67EC0031EB10 /* ConsumptionViewController.swift */,
-				626BC93F215216280099D28D /* SettingsViewController.swift */,
-				6260B66E21569232008DA44F /* ActivityViewController.swift */,
-				628B22FF21816AA700A167FF /* AddFoodViewController.swift */,
-				62BEAE7C21821D0400734924 /* AddNewFoodViewController.swift */,
-				6280316E2185E3F7009E55E0 /* HistoryViewCell.swift */,
-				62919CB821BCEE360090661D /* CustomConsumeCell.swift */,
-			);
-			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		62DC0F06214F87E40031EB10 /* UIView */ = {
-			isa = PBXGroup;
-			children = (
-				621D4B8F214E3D8200CE8A52 /* Main.storyboard */,
-				621D4B97214E3D8A00CE8A52 /* LaunchScreen.storyboard */,
-			);
-			path = UIView;
 			sourceTree = "<group>";
 		};
 		62DC0F07214F87F50031EB10 /* Model */ = {
@@ -171,6 +143,58 @@
 				621D4B92214E3D8200CE8A52 /* WeightLoss.xcdatamodeld */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		E55650242836A79000B3945B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				621D4B8F214E3D8200CE8A52 /* Main.storyboard */,
+				621D4B97214E3D8A00CE8A52 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E55650252836A79600B3945B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E55650262836A7AD00B3945B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E55650272836A7C400B3945B /* CustomCells */,
+				621D4BA0214E407100CE8A52 /* AuthViewController.swift */,
+				621D4BA2214E460E00CE8A52 /* HomeViewController.swift */,
+				621D4BA4214E52E300CE8A52 /* PedoViewController.swift */,
+				62DC0F03214F67EC0031EB10 /* ConsumptionViewController.swift */,
+				626BC93F215216280099D28D /* SettingsViewController.swift */,
+				6260B66E21569232008DA44F /* ActivityViewController.swift */,
+				628B22FF21816AA700A167FF /* AddFoodViewController.swift */,
+				62BEAE7C21821D0400734924 /* AddNewFoodViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		E55650272836A7C400B3945B /* CustomCells */ = {
+			isa = PBXGroup;
+			children = (
+				6280316E2185E3F7009E55E0 /* HistoryViewCell.swift */,
+				62919CB821BCEE360090661D /* CustomConsumeCell.swift */,
+			);
+			path = CustomCells;
+			sourceTree = "<group>";
+		};
+		E55650282836A81300B3945B /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				621D4B8B214E3D8100CE8A52 /* AppDelegate.swift */,
+				621D4B95214E3D8A00CE8A52 /* Assets.xcassets */,
+				6260B655215685EA008DA44F /* Assets */,
+				6260B65321567D98008DA44F /* KDCircularProgress.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
