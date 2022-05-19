@@ -66,19 +66,19 @@ class SettingsViewController: UIViewController {
         let currentDate = self.formatter.string(from: (self.date))
         
         if (UserDefaults.standard.string(forKey: "TargetCalCount_" + currentDate) ?? "").isEmpty {
-            setTargetTextField.text = "";
+            setTargetTextField.text = ""
         } else {
             setTargetTextField.text = UserDefaults.standard.string(forKey: "TargetCalCount_" + currentDate)
         }
         
         if (UserDefaults.standard.string(forKey: "Name") ?? "").isEmpty {
-            setNameTextField.text = "";
+            setNameTextField.text = ""
         } else {
             setNameTextField.text = UserDefaults.standard.string(forKey: "Name")
         }
         
         if (UserDefaults.standard.string(forKey: "Weight") ?? "").isEmpty {
-            setWeightTextField.text = "";
+            setWeightTextField.text = ""
         } else {
             setWeightTextField.text = UserDefaults.standard.string(forKey: "Weight")
         }

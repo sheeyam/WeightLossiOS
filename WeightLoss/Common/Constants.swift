@@ -10,4 +10,7 @@ import Foundation
 
 struct Constants {
     
+    struct segues {
+        static let authToHome = "auth2home"
+    }
 }

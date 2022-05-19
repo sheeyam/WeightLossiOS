@@ -16,7 +16,7 @@ class AuthViewController: UIViewController {
         // Do any additional setup after loading the view.
         navigateToHomeViewController()
         
-        //Do Face ID
+        //TODO: Face ID
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -30,7 +30,7 @@ class AuthViewController: UIViewController {
 
     func navigateToHomeViewController(){
         DispatchQueue.main.async {
-            self.performSegue(withIdentifier: "auth2home", sender: nil)
+            self.performSegue(withIdentifier: Constants.segues.authToHome, sender: nil)
         }
     }
     

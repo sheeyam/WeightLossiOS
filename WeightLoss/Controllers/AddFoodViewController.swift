@@ -41,7 +41,7 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         fillArrays()
         foodNameTextField.delegate=self
         foodCalTextField.delegate=self
-        foodPickerView.isHidden = true;
+        foodPickerView.isHidden = true
         // Do any additional setup after loading the view.
         self.hideKeyboardWhenTappedAround() 
     }
@@ -182,21 +182,21 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         if mealTime == "Breakfast" {
             foodNameTextField.text = foodB[row]
             foodCalTextField.text = String(foodBC[row])
-            foodCountTextField.text = "1";
+            foodCountTextField.text = "1"
         } else if mealTime == "Lunch" {
             foodNameTextField.text = foodL[row]
             foodCalTextField.text = String(foodLC[row])
-            foodCountTextField.text = "1";
+            foodCountTextField.text = "1"
         } else if mealTime == "Dinner" {
             foodNameTextField.text = foodD[row]
             foodCalTextField.text = String(foodDC[row])
-            foodCountTextField.text = "1";
+            foodCountTextField.text = "1"
         } else {
             foodNameTextField.text = foodS[row]
             foodCalTextField.text = String(foodSC[row])
-            foodCountTextField.text = "1";
+            foodCountTextField.text = "1"
         }
-        foodPickerView.isHidden = true;
+        foodPickerView.isHidden = true
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {

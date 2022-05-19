@@ -19,7 +19,6 @@ class HomeViewController: UIViewController {
     
     @IBOutlet weak var consumedProgressView: KDCircularProgress!
     @IBOutlet weak var burntProgressView: KDCircularProgress!
-    
     @IBOutlet weak var spentLbl: UILabel!
     @IBOutlet weak var stepsLbl: UILabel!
     @IBOutlet weak var activityLbl: UILabel!
@@ -29,12 +28,10 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var targetLbl: UILabel!
     @IBOutlet weak var netLbl: UILabel!
     @IBOutlet weak var consumedLbl: UILabel!
-    
     @IBOutlet weak var activityImageView: UIImageView!
     
     let date = Date()
     let formatter = DateFormatter()
-    
     var timer = Timer()
     var spentCalCount: Double = 0
     var targetCalCount: Double = 0
@@ -43,7 +40,6 @@ class HomeViewController: UIViewController {
     var stepsCount: Int = 0
     var sc: Int = 0
     var spc: Int = 0
-    
     let caloriePerStep = 1
     
     override func viewDidLoad() {
@@ -52,14 +48,14 @@ class HomeViewController: UIViewController {
         //scheduledTimerWithTimeInterval()
         shouldStartUpdating = !shouldStartUpdating
         shouldStartUpdating ? (onStart()) : (onStop())
-        loadContent();
+        loadContent()
         activityImageView.image = UIImage(named: "standing")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        loadContent();
+        loadContent()
         // Do any additional setup after loading the view.
         activityImageView.image = UIImage(named: "standing")
     }
@@ -83,12 +79,12 @@ class HomeViewController: UIViewController {
         stepsCount = Int(UserDefaults.standard.integer(forKey: "StepsCount_" + currentDate))
         
         if (0 == UserDefaults.standard.integer(forKey: "TargetCalCount_" + currentDate)) {
-            consumedProgressNumberLabel.text = "0%";
-            burntProgressNumberLabel.text = "0%";
+            consumedProgressNumberLabel.text = "0%"
+            burntProgressNumberLabel.text = "0%"
         } else {
             
             if (0 == UserDefaults.standard.integer(forKey: "SpentCalCount_" + currentDate)) {
-                burntProgressNumberLabel.text = "0%";
+                burntProgressNumberLabel.text = "0%"
             } else {
                 if Int(spentCalCount * 100 / (targetCalCount)) < 100 {
                     burntProgressNumberLabel.text = String(Int(spentCalCount * 100 / (targetCalCount))) + "%"
@@ -103,7 +99,7 @@ class HomeViewController: UIViewController {
             }
             
             if (0 == UserDefaults.standard.integer(forKey: "ConsumedCal_" + currentDate)) {
-                consumedProgressNumberLabel.text = "0%";
+                consumedProgressNumberLabel.text = "0%"
             } else {
                 if Int(consumedCalCount * 100 / (targetCalCount)) < 100 {
                     consumedProgressNumberLabel.text = String(Int(consumedCalCount * 100 / (targetCalCount))) + "%"

@@ -157,7 +157,7 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        return 155.0;
+        return 155.0
     }
     
     func fillArray(index:Int?){
@@ -198,7 +198,7 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
     func tomorrow() -> Date {
         
         var dateComponents = DateComponents()
-        dateComponents.setValue(1, for: .day); // +1 day
+        dateComponents.setValue(1, for: .day) // +1 day
         
         let now = Date() // Current date
         let tomorrow = Calendar.current.date(byAdding: dateComponents, to: now)  // Add the DateComponents

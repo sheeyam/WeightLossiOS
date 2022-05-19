@@ -52,7 +52,7 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        mealTime = "Breakfast";
+        mealTime = "Breakfast"
         formatter.dateFormat = "MM.dd.yyyy"
         let currentDate = formatter.string(from: date)
         dateLbl.text = currentDate
@@ -85,13 +85,13 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
         switch mealSegmentCtl.selectedSegmentIndex
         {
         case 0:
-            mealTime = "Breakfast";
+            mealTime = "Breakfast"
         case 1:
-            mealTime = "Lunch";
+            mealTime = "Lunch"
         case 2:
-            mealTime = "Dinner";
+            mealTime = "Dinner"
         case 3:
-            mealTime = "Snacks";
+            mealTime = "Snacks"
         default:
             break
         }
@@ -137,7 +137,7 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(_ foodTableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // cell selected code here
-        index = indexPath.row;
+        index = indexPath.row
         //  print(index)
         op = "update"
         performSegue(withIdentifier: "consumption2addnew", sender: nil)
