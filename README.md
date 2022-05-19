@@ -13,7 +13,10 @@ SCOPE
 - Give the target of calories that user want to spend
 
 DEVELOPMENT LANGUAGE
-- Swift
+- Swift 5.0
+
+ARCHITECTURE
+- MVVM
 
 FRAMEWORKS USED
 - CocoaTouch
