@@ -148,18 +148,18 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
         let alertController = UIAlertController(title: "Add Consumption", message: "Add New/Choose Consumption", preferredStyle: .alert)
         
         // Create the actions
-        let okAction = UIAlertAction(title: "Add", style: UIAlertActionStyle.default) {
+        let okAction = UIAlertAction(title: "Add", style: UIAlertAction.Style.default) {
             UIAlertAction in
             NSLog("Add Food Pressed")
             self.goToAddNewFoodVC()
         }
-        let chooseAction = UIAlertAction(title: "Choose", style: UIAlertActionStyle.default) {
+        let chooseAction = UIAlertAction(title: "Choose", style: UIAlertAction.Style.default) {
             UIAlertAction in
             NSLog("Choose Food Pressed")
             self.goToNewFoodVC()
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default) {
             UIAlertAction in
             NSLog("Cancel Alert Box")
         }
@@ -259,8 +259,8 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
         foodTableView.reloadData()
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if(editingStyle == UITableViewCellEditingStyle.delete){
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if(editingStyle == UITableViewCell.EditingStyle.delete){
             let index = indexPath.row
             if (!(foodDictionary[mealTime])!.isEmpty){
                 if mealTime == "Breakfast" {
@@ -272,7 +272,7 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
                 } else if mealTime == "Snacks" {
                     foodS.remove(at: index)
                 }
-                var foodList : [NSManagedObject] = foodDictionary[mealTime]!
+                let foodList : [NSManagedObject] = foodDictionary[mealTime]!
                 let foodToBeDeleted = foodList[index]
                 print(foodList)
                 //TODO check for null entity.
