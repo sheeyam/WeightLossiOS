@@ -108,7 +108,6 @@
 				E55650242836A79000B3945B /* View */,
 				E55650252836A79600B3945B /* ViewModel */,
 				E55650262836A7AD00B3945B /* Controllers */,
-				6260B6702156931D008DA44F /* helpers */,
 			);
 			path = WeightLoss;
 			sourceTree = "<group>";
@@ -130,13 +129,6 @@
 				6260B656215685F6008DA44F /* touchid.png */,
 			);
 			path = Assets;
-			sourceTree = "<group>";
-		};
-		6260B6702156931D008DA44F /* helpers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = helpers;
 			sourceTree = "<group>";
 		};
 		62DC0F07214F87F50031EB10 /* Model */ = {
@@ -445,7 +437,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VN35ATD3NS;
+				DEVELOPMENT_TEAM = HYPV48CBU7;
 				INFOPLIST_FILE = WeightLoss/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -465,7 +457,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VN35ATD3NS;
+				DEVELOPMENT_TEAM = HYPV48CBU7;
 				INFOPLIST_FILE = WeightLoss/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
