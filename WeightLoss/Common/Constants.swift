@@ -13,6 +13,11 @@ struct Constants {
     
     static let commonDF = "MM.dd.yyyy"
     
+    struct customCells {
+        static let historyViewCellIdentifier = "historyViewCell"
+        static let customConsumeCellIdentifier = "customConsumeCell"
+    }
+    
     struct segues {
         static let authToHome = "auth2home"
         static let consumptionToAddnew = "consumptionToAddnew"
@@ -24,6 +29,20 @@ struct Constants {
         static let lunch = "Lunch"
         static let dinner = "Dinner"
         static let snacks = "Snacks"
+    }
+    
+    struct icons {
+        static let walking = "walking"
+        static let standing = "standing"
+        static let running = "running"
+        static let driving = "driving"
+    }
+    
+    struct activityStrings {
+        static let walking = "Walking"
+        static let stationary = "Stationary"
+        static let running = "Running"
+        static let automotive = "Automotive"
     }
     
     struct userDefaultKeys {

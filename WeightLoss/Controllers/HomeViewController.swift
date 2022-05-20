@@ -50,7 +50,7 @@ class HomeViewController: UIViewController {
         shouldStartUpdating = !shouldStartUpdating
         shouldStartUpdating ? (onStart()) : (onStop())
         loadContent()
-        activityImageView.image = UIImage(named: "standing")
+        activityImageView.image = UIImage(named: Constants.icons.standing)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -58,7 +58,7 @@ class HomeViewController: UIViewController {
         
         loadContent()
         // Do any additional setup after loading the view.
-        activityImageView.image = UIImage(named: "standing")
+        activityImageView.image = UIImage(named: Constants.icons.standing)
     }
     
     func loadContent(){

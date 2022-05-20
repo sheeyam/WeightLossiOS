@@ -10,13 +10,13 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     
+    let formatter = DateFormatter()
+    
     @IBOutlet weak var enableDisableTouchIDSwitch: UISwitch!
     @IBOutlet weak var setNameTextField: UITextField!
     @IBOutlet weak var setTargetTextField: UITextField!
     @IBOutlet weak var setWeightTextField: UITextField!
-    
-    let formatter = DateFormatter()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         formatter.dateFormat = Constants.commonDF

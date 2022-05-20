@@ -13,9 +13,16 @@ class CustomConsumeCell: UITableViewCell {
     @IBOutlet weak var foodLbl: UILabel!
     @IBOutlet weak var calLbl: UILabel!
     
+    static let identifier = Constants.customCells.customConsumeCellIdentifier
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    
+    // nib
+    static func nib() -> UINib {
+        return UINib(nibName: identifier, bundle: nil)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

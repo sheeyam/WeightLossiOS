@@ -37,6 +37,8 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
         let currentDate = formatter.string(from: date)
         dateLbl.text = currentDate
         
+        foodTableView.register(CustomConsumeCell.nib(), forCellReuseIdentifier: CustomConsumeCell.identifier)
+        
         //Fill Arrays OnLoad
         fillArrays()
     }
@@ -83,7 +85,7 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(_ foodTableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // your cell coding
-        let cell:CustomConsumeCell = foodTableView.dequeueReusableCell(withIdentifier: "foodcell", for: indexPath) as! CustomConsumeCell
+        let cell:CustomConsumeCell = foodTableView.dequeueReusableCell(withIdentifier: CustomConsumeCell.identifier, for: indexPath) as! CustomConsumeCell
         cell.configureCell(foodData: foodData[indexPath.row])
         return cell
     }
@@ -103,19 +105,14 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
         // Create the actions
         let okAction = UIAlertAction(title: "Add", style: UIAlertAction.Style.default) {
             UIAlertAction in
-            NSLog("Add Food Pressed")
             self.goToAddNewFoodVC()
         }
         let chooseAction = UIAlertAction(title: "Choose", style: UIAlertAction.Style.default) {
             UIAlertAction in
-            NSLog("Choose Food Pressed")
             self.goToNewFoodVC()
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default) {
-            UIAlertAction in
-            NSLog("Cancel Alert Box")
-        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default)
         
         // Add the actions
         alertController.addAction(okAction)
@@ -139,14 +136,11 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
         if segue.identifier == Constants.segues.consumptionToAddnew{
             let DestViewController = segue.destination as! UINavigationController
             let targetController = DestViewController.topViewController as! AddNewFoodViewController
-            targetController.mealTime = mealTime
             if(op == "add"){
                 targetController.operation = op
             } else if (op == "update" && !(foodDictionary[mealTime])!.isEmpty){
-                let consumptionItem = (foodDictionary[mealTime]!)[index]
-                print((foodDictionary[mealTime]!))
                 targetController.operation = op
-                targetController.consumptionItem = consumptionItem as AnyObject
+                targetController.consumptionItem = foodData[index]
             }
         } else if segue.identifier == Constants.segues.consumptionToAdd {
             let DestViewController = segue.destination as! UINavigationController
@@ -160,8 +154,6 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
     func fillAndReload(){
         fillArrays()
         foodTableView.reloadData()
-        print("Data Reloaded")
-        
     }
     
     func saveFood(foodName: String, foodCalorie: Double, foodType: String, foodDate: Date) {
@@ -182,7 +174,6 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
         do {
             try managedContext.save()
             food.append(foodItem)
-            //getFood(index: 0)
             fillArrays()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
@@ -190,8 +181,8 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func getFood (index: Int) {
-        let x = food[index]
-        foodData[index].foodName = (x.value(forKeyPath: "name") as? String)!
+        let foodVal = food[index]
+        foodData[index].foodName = (foodVal.value(forKeyPath: "name") as? String)!
         foodTableView.reloadData()
     }
     
@@ -204,6 +195,7 @@ class ConsumptionViewController: UIViewController, UITableViewDelegate, UITableV
                 let foodList : [NSManagedObject] = foodDictionary[mealTime]!
                 let foodToBeDeleted = foodList[index]
                 print(foodList)
+                
                 //TODO check for null entity.
                 self.deleteData(name: (foodToBeDeleted.value(forKey:"name")! as AnyObject).description)
                 self.fillAndReload()

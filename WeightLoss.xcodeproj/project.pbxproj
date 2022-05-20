@@ -40,6 +40,7 @@
 		E55650302836F8D300B3945B /* AngleCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E556502F2836F8D300B3945B /* AngleCalculator.swift */; };
 		E55650322836FC3D00B3945B /* FoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55650312836FC3D00B3945B /* FoodModel.swift */; };
 		E556503428370DBE00B3945B /* ConsumptionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E556503328370DBE00B3945B /* ConsumptionModel.swift */; };
+		E556503628375BF600B3945B /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = E556503528375BF600B3945B /* Utility.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +79,7 @@
 		E556502F2836F8D300B3945B /* AngleCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngleCalculator.swift; sourceTree = "<group>"; };
 		E55650312836FC3D00B3945B /* FoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodModel.swift; sourceTree = "<group>"; };
 		E556503328370DBE00B3945B /* ConsumptionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumptionModel.swift; sourceTree = "<group>"; };
+		E556503528375BF600B3945B /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,10 +144,10 @@
 		62DC0F07214F87F50031EB10 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				621D4B92214E3D8200CE8A52 /* WeightLoss.xcdatamodeld */,
 				E556502D2836F00600B3945B /* ActivityModel.swift */,
 				E55650312836FC3D00B3945B /* FoodModel.swift */,
 				E556503328370DBE00B3945B /* ConsumptionModel.swift */,
+				621D4B92214E3D8200CE8A52 /* WeightLoss.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -195,11 +197,12 @@
 		E55650282836A81300B3945B /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				621D4B8B214E3D8100CE8A52 /* AppDelegate.swift */,
 				621D4B95214E3D8A00CE8A52 /* Assets.xcassets */,
 				6260B655215685EA008DA44F /* Assets */,
-				6260B65321567D98008DA44F /* KDCircularProgress.swift */,
+				621D4B8B214E3D8100CE8A52 /* AppDelegate.swift */,
 				E556502B2836AD2600B3945B /* Constants.swift */,
+				6260B65321567D98008DA44F /* KDCircularProgress.swift */,
+				E556503528375BF600B3945B /* Utility.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				621D4BA3214E460E00CE8A52 /* HomeViewController.swift in Sources */,
 				621D4BA1214E407100CE8A52 /* AuthViewController.swift in Sources */,
 				62BEAE7D21821D0400734924 /* AddNewFoodViewController.swift in Sources */,
+				E556503628375BF600B3945B /* Utility.swift in Sources */,
 				E556502E2836F00600B3945B /* ActivityModel.swift in Sources */,
 				E556502C2836AD2600B3945B /* Constants.swift in Sources */,
 				626BC940215216280099D28D /* SettingsViewController.swift in Sources */,
@@ -463,7 +467,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -483,7 +487,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

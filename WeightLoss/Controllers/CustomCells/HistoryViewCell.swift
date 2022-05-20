@@ -17,6 +17,9 @@ class HistoryViewCell: UITableViewCell {
     @IBOutlet weak var historyProgressLbl: UILabel!
     @IBOutlet weak var historyProgressView: KDCircularProgress!
     
+    //Constants
+    static let identifier = Constants.customCells.historyViewCellIdentifier
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -26,6 +29,11 @@ class HistoryViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
+    }
+    
+    // nib
+    static func nib() -> UINib {
+        return UINib(nibName: identifier, bundle: nil)
     }
     
     func configureCell(activityData: ActivityModel) {

@@ -21,18 +21,18 @@ class ActivityViewController: UIViewController {
         setupRefreshControl()
     }
     
-    func setupRefreshControl(){
-        refreshControl = UIRefreshControl()
-        activityTableView.addSubview(refreshControl)
-        refreshControl.addTarget(self, action: #selector(handleRefresh), for:.valueChanged)
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         // Do any additional setup after loading the view.
         formatter.dateFormat = Constants.commonDF
         removeAllData()
         fillLast30DayData()
+    }
+    
+    func setupRefreshControl(){
+        refreshControl = UIRefreshControl()
+        activityTableView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for:.valueChanged)
     }
     
     override func didReceiveMemoryWarning() {
@@ -71,22 +71,6 @@ class ActivityViewController: UIViewController {
     }
 }
 
-extension ActivityViewController {
-    func yesterday() -> Date {
-        var dateComponents = DateComponents()
-        dateComponents.setValue(-1, for: .day) // -1 day
-        let yesterday = Calendar.current.date(byAdding: dateComponents, to: Date()) // Add the DateComponents
-        return yesterday!
-    }
-    
-    func tomorrow() -> Date {
-        var dateComponents = DateComponents()
-        dateComponents.setValue(1, for: .day) // +1 day
-        let tomorrow = Calendar.current.date(byAdding: dateComponents, to: Date())  // Add the DateComponents
-        return tomorrow!
-    }
-}
-
 extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return activityData.count
@@ -101,7 +85,7 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell:HistoryViewCell = activityTableView.dequeueReusableCell(withIdentifier: "historycell", for: indexPath) as! HistoryViewCell
+        let cell:HistoryViewCell = activityTableView.dequeueReusableCell(withIdentifier: HistoryViewCell.identifier, for: indexPath) as! HistoryViewCell
         cell.configureCell(activityData: activityData[indexPath.row])
         return cell
     }

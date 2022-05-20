@@ -10,7 +10,6 @@ import UIKit
 import CoreData
 
 class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
-    let date = Date()
     var consumption: [NSManagedObject] = []
     var consumptionData: [ConsumptionModel] = []
 
@@ -107,7 +106,7 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             self.saveFood(foodName: (foodNameTextField?.text)!,
                       foodCalorie: Double(CalCount),
                       foodType: mealTime,
-                      foodDate: self.date,
+                      foodDate: Date(),
                       foodICalorie: Double(Int((foodCalTextField?.text)!)!),
                       foodCount: Int16((foodCountTextField?.text)!)!)
         }

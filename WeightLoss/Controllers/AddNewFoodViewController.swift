@@ -10,25 +10,16 @@ import UIKit
 import CoreData
 
 class AddNewFoodViewController: UIViewController {
-    var food: [NSManagedObject] = []
-    var consumption: [NSManagedObject] = []
-    let date = Date()
     
     @IBOutlet weak var mealTimeLbl: UILabel!
     @IBOutlet weak var foodNameTextField: UITextField!
     @IBOutlet weak var foodCalTextField: UITextField!
     @IBOutlet weak var foodCountTextField: UITextField!
     
-    var mealTime: String = ""
+    var food: [NSManagedObject] = []
+    var consumption: [NSManagedObject] = []
     var operation : String = ""
-    
-    var foodtype : String = ""
-    var foodName : String = ""
-    var calorie : String = ""
-    var icalorie : String = ""
-    var quanti : String = ""
-    
-    var consumptionItem : AnyObject? {
+    var consumptionItem: FoodModel? {
         didSet {
             self.configureView()
         }
@@ -37,8 +28,7 @@ class AddNewFoodViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureView()
-        NSLog(mealTime, mealTime)
-        mealTimeLbl.text = mealTime
+        mealTimeLbl.text = consumptionItem?.foodType
         // Do any additional setup after loading the view.
     }
     
@@ -48,28 +38,22 @@ class AddNewFoodViewController: UIViewController {
     }
     
     @IBAction func addNewFood(_ sender: Any) {
-        
-        if foodCountTextField?.text == "" ||
-            foodCalTextField?.text == "" ||
-            foodNameTextField?.text == "" {
+        if(operation == "add") {
+            let CalCount: Int = Int((foodCountTextField?.text)!)! * Int((foodCalTextField?.text)!)!
+            self.saveFood(foodName: (foodNameTextField?.text)!,
+                      foodCalorie: Double(CalCount),
+                      foodType: consumptionItem?.foodType ?? "",
+                      foodDate: Date(),
+                      foodCount: Int16((foodCountTextField?.text)!)!,
+                      foodICalorie: Double(Int((foodCalTextField?.text)!)!))
         } else {
-            if(operation == "add") {
-                let CalCount: Int = Int((foodCountTextField?.text)!)! * Int((foodCalTextField?.text)!)!
-                self.saveFood(foodName: (foodNameTextField?.text)!,
-                          foodCalorie: Double(CalCount),
-                          foodType: mealTime,
-                          foodDate: self.date,
-                          foodCount: Int16((foodCountTextField?.text)!)!,
-                          foodICalorie: Double(Int((foodCalTextField?.text)!)!))
-            } else {
-                let detail = self.consumptionItem
-                let CalCount: Int = Int((foodCountTextField?.text)!)! * Int((foodCalTextField?.text)!)!
-                self.updateConsumption(consumptionItem: detail!,
-                                   foodName: (foodNameTextField?.text)!,
-                                   foodCalorie: Double(CalCount),
-                                   foodICalorie: Double(Int((foodCalTextField?.text)!)!),
-                                   foodCount: Int16((foodCountTextField?.text)!)!)
-            }
+            let detail = self.consumptionItem
+            let CalCount: Int = Int((foodCountTextField?.text)!)! * Int((foodCalTextField?.text)!)!
+            self.updateConsumption(consumptionItem: detail!,
+                               foodName: (foodNameTextField?.text)!,
+                               foodCalorie: Double(CalCount),
+                               foodICalorie: Double(Int((foodCalTextField?.text)!)!),
+                               foodCount: Int16((foodCountTextField?.text)!)!)
         }
     }
     
@@ -78,29 +62,16 @@ class AddNewFoodViewController: UIViewController {
     }
     
     func configureView(){
-        print("configureView...")
-        //mealTimeLbl.text = mealTime
-        if let detail = self.consumptionItem {
-            if let labelFName = self.foodNameTextField {
-                labelFName.text = (detail.value(forKey:"name")! as AnyObject).description
-            }
-            
-            if let labelCalorie = self.foodCalTextField {
-                /* TO DO Check for Null Value*/
-                labelCalorie.text = ((detail.value(forKeyPath: "icalorie") as? NSNumber)!).stringValue
-            }
-            
-            if let labelQuantity = self.foodCountTextField {
-                /* TO DO Check for Null Value*/
-                labelQuantity.text =  ((detail.value(forKeyPath: "count") as? NSNumber)!).stringValue
-            }
-            
-            if let labelType = self.mealTimeLbl {
-                labelType.text = (detail.value(forKey: "type")! as AnyObject).description
-            }
+        if let item = self.consumptionItem {
+            self.foodNameTextField.text = item.foodName
+            self.foodCalTextField.text = String(item.foodCalorie)
+            self.foodCountTextField.text = String(item.foodCount)
+            self.mealTimeLbl.text = item.foodType
         }
     }
-    
+}
+
+extension AddNewFoodViewController {
     func saveFood(foodName: String, foodCalorie: Double, foodType: String, foodDate: Date, foodCount: Int16, foodICalorie: Double) {
         guard let appDelegate = UIApplication.shared.delegate
             as? AppDelegate else {
@@ -119,7 +90,6 @@ class AddNewFoodViewController: UIViewController {
         do {
             try managedContext.save()
             food.append(foodItem)
-            //self.dismiss(animated: true, completion: nil)
             self.saveConsumption(foodName: foodName,
                                  foodCalorie: foodCalorie,
                                  foodType: foodType,
@@ -131,7 +101,7 @@ class AddNewFoodViewController: UIViewController {
         }
     }
     
-    func updateConsumption(consumptionItem: AnyObject, foodName: String, foodCalorie: Double, foodICalorie: Double, foodCount: Int16) {
+    func updateConsumption(consumptionItem: FoodModel, foodName: String, foodCalorie: Double, foodICalorie: Double, foodCount: Int16) {
         print("Inside Update Food... ")
         guard let appDelegate = UIApplication.shared.delegate
             as? AppDelegate else {
@@ -143,17 +113,10 @@ class AddNewFoodViewController: UIViewController {
         do{
             let results = try managedContext.fetch(fetchRequest)
             consumption = results as! [NSManagedObject]
-            let foodItem = consumptionItem
-            //managedObject.setValue(foodName, forKey:"name")
-            //managedObject.setValue(quanti, forKey:"count")
-            //managedObject.setValue(calorie, forKey:"calorie")
-            
-            foodItem.setValue(foodName, forKeyPath: "name")
-            //foodItem.setValue(foodDate, forKeyPath: "date")
-            foodItem.setValue(foodCalorie, forKeyPath: "calorie")
-            foodItem.setValue(foodICalorie, forKeyPath: "icalorie")
-            //foodItem.setValue(foodType, forKeyPath: "type")
-            foodItem.setValue(foodCount, forKeyPath: "count")
+            consumption.first?.setValue(consumptionItem.foodName, forKeyPath: "name")
+            consumption.first?.setValue(consumptionItem.foodCalorie, forKeyPath: "calorie")
+            consumption.first?.setValue(consumptionItem.foodICalorie, forKeyPath: "icalorie")
+            consumption.first?.setValue(consumptionItem.foodCount, forKeyPath: "count")
             
             try managedContext.save()
             self.dismiss(animated: true, completion: nil)
