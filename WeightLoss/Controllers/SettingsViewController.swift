@@ -47,10 +47,8 @@ class SettingsViewController: UIViewController {
     
     @IBAction func stateChanged(_ sender: Any) {
         if enableDisableTouchIDSwitch.isOn {
-            print("The TouchID Switch is On")
             UserDefaults.standard.set(true, forKey: Constants.userDefaultKeys.faceID)
         } else {
-            print("The TouchID Switch is Off")
             UserDefaults.standard.set(false, forKey: Constants.userDefaultKeys.faceID)
         }
     }

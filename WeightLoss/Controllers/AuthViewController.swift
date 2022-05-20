@@ -12,7 +12,7 @@ import LocalAuthentication
 class AuthViewController: UIViewController {
     
     override func viewDidLoad() {
-        super.viewDidLoad()        
+        super.viewDidLoad()
         //Authenticate User with Face ID
         AuthenticateUser()
     }
@@ -21,7 +21,7 @@ class AuthViewController: UIViewController {
         let context = LAContext()
         var error: NSError? = nil
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            let reason = "Please authorize with Face ID"
+            let reason = Constants.alertStrings.faceIDReason
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) {
                 [weak self] success, error in
                 guard success,error == nil else {
@@ -48,11 +48,5 @@ class AuthViewController: UIViewController {
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: Constants.segues.authToHome, sender: nil)
         }
-    }
-    
-    func showAlertController(_ message: String) {
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
     }
 }

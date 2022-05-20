@@ -10,28 +10,31 @@ import UIKit
 import CoreData
 
 class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
-    var consumption: [NSManagedObject] = []
-    var consumptionData: [ConsumptionModel] = []
-
+    
     @IBOutlet weak var mealTimeLbl: UILabel!
     @IBOutlet weak var foodCountTextField: UITextField!
     @IBOutlet weak var foodCalTextField: UITextField!
     @IBOutlet weak var foodNameTextField: UITextField!
     @IBOutlet weak var foodPickerView: UIPickerView!
     
+    var consumption: [NSManagedObject] = []
+    var consumptionData: [ConsumptionModel] = []
     var pickerData: [String] = [String]()
     var mealTime: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSLog(mealTime, mealTime)
+        setupInitialData()
+    }
+    
+    func setupInitialData(){
         mealTimeLbl.text = mealTime
         fillArrays()
         foodNameTextField.delegate=self
         foodCalTextField.delegate=self
         foodPickerView.isHidden = true
-        // Do any additional setup after loading the view.
-        self.hideKeyboardWhenTappedAround() 
+        
+        self.hideKeyboardWhenTappedAround()
     }
     
     @IBAction func goBack(_ sender: Any) {
@@ -45,33 +48,35 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         }
         
         let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Consume",in: managedContext)!
+        let entity = NSEntityDescription.entity(forEntityName: Constants.entities.consume, in: managedContext)!
         let foodItem = NSManagedObject(entity: entity, insertInto: managedContext)
         
-        foodItem.setValue(foodName, forKeyPath: "name")
-        foodItem.setValue(foodDate, forKeyPath: "date")
-        foodItem.setValue(foodCalorie, forKeyPath: "calorie")
-        foodItem.setValue(foodType, forKeyPath: "type")
-        foodItem.setValue(foodICalorie, forKeyPath: "icalorie")
-        foodItem.setValue(foodCount, forKeyPath: "count")
+        foodItem.setValue(foodName, forKeyPath: Constants.entities.keys.name)
+        foodItem.setValue(foodDate, forKeyPath: Constants.entities.keys.date)
+        foodItem.setValue(foodCalorie, forKeyPath: Constants.entities.keys.calorie)
+        foodItem.setValue(foodType, forKeyPath: Constants.entities.keys.type)
+        foodItem.setValue(foodICalorie, forKeyPath: Constants.entities.keys.icalorie)
+        foodItem.setValue(foodCount, forKeyPath: Constants.entities.keys.count)
         
         do {
             try managedContext.save()
             consumption.append(foodItem)
-            //getFood(index: 0)
             fillArrays()
             self.dismiss(animated: true, completion: nil)
         } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+            print("\(error), \(error.userInfo)")
         }
+    }
+    
+    func resetData() {
+        consumptionData.removeAll()
     }
     
     func fillArrays(){
         
-        consumptionData.removeAll()
-        
+        resetData()
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Food")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Constants.entities.food)
         
         do {
             let results = try context.fetch(fetchRequest)

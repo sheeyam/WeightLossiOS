@@ -19,21 +19,14 @@ class CustomConsumeCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-    
-    // nib
-    static func nib() -> UINib {
-        return UINib(nibName: identifier, bundle: nil)
-    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
     
     func configureCell(foodData: FoodModel){
         foodLbl?.text = foodData.foodName
-        calLbl?.text = String(foodData.foodCalorie) + " Cals"
+        calLbl?.text  = String(foodData.foodCalorie) + " \(Constants.labelStrings.cals)"
     }
-
 }

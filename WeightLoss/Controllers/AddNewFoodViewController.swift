@@ -18,18 +18,21 @@ class AddNewFoodViewController: UIViewController {
     
     var food: [NSManagedObject] = []
     var consumption: [NSManagedObject] = []
+    var mealTime : String = ""
     var operation : String = ""
-    var consumptionItem: FoodModel? {
-        didSet {
-            self.configureView()
-        }
-    }
+    var consumptionItem: FoodModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.configureView()
-        mealTimeLbl.text = consumptionItem?.foodType
+        setValues()
         // Do any additional setup after loading the view.
+    }
+    
+    func setValues(){
+        mealTimeLbl.text = consumptionItem?.foodType ?? mealTime
+        foodNameTextField.text = consumptionItem?.foodName ?? ""
+        foodCalTextField.text = String(consumptionItem?.foodCalorie ?? 0)
+        foodCountTextField.text = String(consumptionItem?.foodCount ?? 0)
     }
     
     override func didReceiveMemoryWarning() {
@@ -42,7 +45,7 @@ class AddNewFoodViewController: UIViewController {
             let CalCount: Int = Int((foodCountTextField?.text)!)! * Int((foodCalTextField?.text)!)!
             self.saveFood(foodName: (foodNameTextField?.text)!,
                       foodCalorie: Double(CalCount),
-                      foodType: consumptionItem?.foodType ?? "",
+                      foodType: consumptionItem?.foodType ?? mealTime,
                       foodDate: Date(),
                       foodCount: Int16((foodCountTextField?.text)!)!,
                       foodICalorie: Double(Int((foodCalTextField?.text)!)!))
@@ -60,15 +63,6 @@ class AddNewFoodViewController: UIViewController {
     @IBAction func goBack(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-    
-    func configureView(){
-        if let item = self.consumptionItem {
-            self.foodNameTextField.text = item.foodName
-            self.foodCalTextField.text = String(item.foodCalorie)
-            self.foodCountTextField.text = String(item.foodCount)
-            self.mealTimeLbl.text = item.foodType
-        }
-    }
 }
 
 extension AddNewFoodViewController {
@@ -79,13 +73,13 @@ extension AddNewFoodViewController {
         }
         
         let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Food",in: managedContext)!
+        let entity = NSEntityDescription.entity(forEntityName: Constants.entities.food, in: managedContext)!
         let foodItem = NSManagedObject(entity: entity, insertInto: managedContext)
         
-        foodItem.setValue(foodName, forKeyPath: "name")
-        foodItem.setValue(foodDate, forKeyPath: "date")
-        foodItem.setValue(foodICalorie, forKeyPath: "calorie")
-        foodItem.setValue(foodType, forKeyPath: "type")
+        foodItem.setValue(foodName, forKeyPath: Constants.entities.keys.name)
+        foodItem.setValue(foodDate, forKeyPath: Constants.entities.keys.date)
+        foodItem.setValue(foodCalorie, forKeyPath: Constants.entities.keys.calorie)
+        foodItem.setValue(foodType, forKeyPath: Constants.entities.keys.type)
         
         do {
             try managedContext.save()
@@ -97,32 +91,31 @@ extension AddNewFoodViewController {
                                  foodCount: foodCount,
                                  foodICalorie: foodICalorie)
         } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+            print("\(error), \(error.userInfo)")
         }
     }
     
     func updateConsumption(consumptionItem: FoodModel, foodName: String, foodCalorie: Double, foodICalorie: Double, foodCount: Int16) {
-        print("Inside Update Food... ")
         guard let appDelegate = UIApplication.shared.delegate
             as? AppDelegate else {
                 return
         }
         
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Consume")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Constants.entities.consume)
         do{
             let results = try managedContext.fetch(fetchRequest)
             consumption = results as! [NSManagedObject]
-            consumption.first?.setValue(consumptionItem.foodName, forKeyPath: "name")
-            consumption.first?.setValue(consumptionItem.foodCalorie, forKeyPath: "calorie")
-            consumption.first?.setValue(consumptionItem.foodICalorie, forKeyPath: "icalorie")
-            consumption.first?.setValue(consumptionItem.foodCount, forKeyPath: "count")
+            consumption.first?.setValue(consumptionItem.foodName, forKeyPath: Constants.entities.keys.name)
+            consumption.first?.setValue(consumptionItem.foodCalorie, forKeyPath: Constants.entities.keys.calorie)
+            consumption.first?.setValue(consumptionItem.foodICalorie, forKeyPath: Constants.entities.keys.icalorie)
+            consumption.first?.setValue(consumptionItem.foodCount, forKeyPath: Constants.entities.keys.count)
             
             try managedContext.save()
             self.dismiss(animated: true, completion: nil)
         }
         catch let error as NSError{
-            print("Couldnot fetch errror \(error), \(error.userInfo)")
+            print("\(error), \(error.userInfo)")
         }
     }
     
@@ -134,19 +127,19 @@ extension AddNewFoodViewController {
         }
         
         let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Consume",in: managedContext)!
+        let entity = NSEntityDescription.entity(forEntityName: Constants.entities.consume, in: managedContext)!
         let foodItem = NSManagedObject(entity: entity, insertInto: managedContext)
         
-        foodItem.setValue(foodName, forKeyPath: "name")
-        foodItem.setValue(foodDate, forKeyPath: "date")
-        foodItem.setValue(foodCalorie, forKeyPath: "calorie")
-        foodItem.setValue(foodICalorie, forKeyPath: "icalorie")
-        foodItem.setValue(foodType, forKeyPath: "type")
-        foodItem.setValue(foodCount, forKeyPath: "count")
+        foodItem.setValue(foodName, forKeyPath: Constants.entities.keys.name)
+        foodItem.setValue(foodDate, forKeyPath: Constants.entities.keys.date)
+        foodItem.setValue(foodCalorie, forKeyPath: Constants.entities.keys.calorie)
+        foodItem.setValue(foodICalorie, forKeyPath: Constants.entities.keys.icalorie)
+        foodItem.setValue(foodType, forKeyPath: Constants.entities.keys.type)
+        foodItem.setValue(foodCount, forKeyPath: Constants.entities.keys.count)
+        food.append(foodItem)
         
         do {
             try managedContext.save()
-            food.append(foodItem)
             self.dismiss(animated: true, completion: nil)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")

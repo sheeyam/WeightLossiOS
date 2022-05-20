@@ -31,16 +31,11 @@ class HistoryViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    // nib
-    static func nib() -> UINib {
-        return UINib(nibName: identifier, bundle: nil)
-    }
-    
     func configureCell(activityData: ActivityModel) {
         historyDateLbl.text = activityData.activityDate
-        historyConsumedLbl.text = "Consumed = " + activityData.activityConsumed + " Cal"
-        historyBurntLbl.text = "Burnt = " + activityData.activityBurnt + " Cal"
-        historyTargetLbl.text = "Target = " + activityData.activityTarget + " Cal"
+        historyConsumedLbl.text = "Consumed = " + activityData.activityConsumed + " \(Constants.labelStrings.cals)"
+        historyBurntLbl.text = "Burnt = " + activityData.activityBurnt + " \(Constants.labelStrings.cals)"
+        historyTargetLbl.text = "Target = " + activityData.activityTarget + " \(Constants.labelStrings.cals)"
         
         let targetCalCount = Double(activityData.activityTarget)!
         let spentCalCount = Double(activityData.activityBurnt)!

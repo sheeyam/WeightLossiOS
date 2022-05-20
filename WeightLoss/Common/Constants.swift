@@ -45,6 +45,33 @@ struct Constants {
         static let automotive = "Automotive"
     }
     
+    struct labelStrings {
+        static let cals = "Cals"
+    }
+    
+    struct alertStrings {
+        static let add = "Add"
+        static let choose = "Choose"
+        static let cancel = "Cancel"
+        static let addConsumptionTitle = "Add Consumption"
+        static let addConsumptionMsg = "Add New/Choose Consumption"
+        static let faceIDReason = "Please authorize with Face ID"
+    }
+    
+    struct entities {
+        static let food = "Food"
+        static let consume = "Consume"
+        
+        struct keys {
+            static let name = "name"
+            static let date = "date"
+            static let calorie = "calorie"
+            static let type = "type"
+            static let icalorie = "icalorie"
+            static let count = "count"
+        }
+    }
+    
     struct userDefaultKeys {
         static let faceID = "FaceID"
         static let name = "Name"
