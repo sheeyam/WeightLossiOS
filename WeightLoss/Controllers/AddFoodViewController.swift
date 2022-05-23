@@ -21,6 +21,7 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     var consumptionData: [ConsumptionModel] = []
     var pickerData: [String] = [String]()
     var mealTime: String = ""
+    var callback: ((Bool) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,14 +31,15 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     func setupInitialData(){
         mealTimeLbl.text = mealTime
         fillArrays()
-        foodNameTextField.delegate=self
-        foodCalTextField.delegate=self
+        foodNameTextField.delegate = self
+        foodCalTextField.delegate = self
         foodPickerView.isHidden = true
         
         self.hideKeyboardWhenTappedAround()
     }
     
     @IBAction func goBack(_ sender: Any) {
+        callback?(false)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -62,6 +64,7 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             try managedContext.save()
             consumption.append(foodItem)
             fillArrays()
+            callback?(true)
             self.dismiss(animated: true, completion: nil)
         } catch let error as NSError {
             print("\(error), \(error.userInfo)")
@@ -103,17 +106,15 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     }
     
     @IBAction func AddFoodConsumption(_ sender: Any) {
-        if foodCountTextField?.text == "" ||
-            foodCalTextField?.text == "" ||
-            foodNameTextField?.text == "" {
-        } else {
-            let CalCount: Int = Int((foodCountTextField?.text)!)! * Int((foodCalTextField?.text)!)!
+        
+        if let foodCount = foodCountTextField?.text, let foodCalories = foodCalTextField?.text {
+            let CalCount: Int = Int(foodCount)! * Int(foodCalories)!
             self.saveFood(foodName: (foodNameTextField?.text)!,
                       foodCalorie: Double(CalCount),
                       foodType: mealTime,
                       foodDate: Date(),
-                      foodICalorie: Double(Int((foodCalTextField?.text)!)!),
-                      foodCount: Int16((foodCountTextField?.text)!)!)
+                      foodICalorie: Double(Int(foodCount)!),
+                      foodCount: Int16(foodCalories)!)
         }
     }
     
@@ -127,7 +128,7 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return consumptionData.filter({$0.foodType.uppercased() == mealTime.uppercased()}).count
+        return consumptionData.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {

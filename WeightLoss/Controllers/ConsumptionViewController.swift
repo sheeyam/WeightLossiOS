@@ -114,18 +114,27 @@ class ConsumptionViewController: UIViewController {
         if segue.identifier == Constants.segues.consumptionToAddnew{
             let DestViewController = segue.destination as! UINavigationController
             let targetController = DestViewController.topViewController as! AddNewFoodViewController
-            if op == "add" {
-                targetController.operation = op
-                targetController.mealTime = mealTime
-            } else {
-                targetController.operation = op
-                targetController.mealTime = mealTime
+            targetController.mealTime = mealTime
+            targetController.operation = op
+            if op == "update" {
                 targetController.consumptionItem = foodData[index]
+            }
+            targetController.callback = {
+                action in
+                if action {
+                    self.fillArrays()
+                }
             }
         } else if segue.identifier == Constants.segues.consumptionToAdd {
             let DestViewController = segue.destination as! UINavigationController
             let targetController = DestViewController.topViewController as! AddFoodViewController
             targetController.mealTime = mealTime
+            targetController.callback = {
+                action in
+                if action {
+                    self.fillArrays()
+                }
+            }
         } else {
             //Do Nothing
         }

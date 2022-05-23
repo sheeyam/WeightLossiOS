@@ -21,6 +21,7 @@ class AddNewFoodViewController: UIViewController {
     var mealTime : String = ""
     var operation : String = ""
     var consumptionItem: FoodModel?
+    var callback: ((Bool) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +62,7 @@ class AddNewFoodViewController: UIViewController {
     }
     
     @IBAction func goBack(_ sender: Any) {
+        callback?(false)
         self.dismiss(animated: true, completion: nil)
     }
 }
@@ -112,6 +114,7 @@ extension AddNewFoodViewController {
             consumption.first?.setValue(consumptionItem.foodCount, forKeyPath: Constants.entities.keys.count)
             
             try managedContext.save()
+            callback?(true)
             self.dismiss(animated: true, completion: nil)
         }
         catch let error as NSError{
@@ -140,6 +143,7 @@ extension AddNewFoodViewController {
         
         do {
             try managedContext.save()
+            callback?(true)
             self.dismiss(animated: true, completion: nil)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")

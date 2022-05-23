@@ -74,8 +74,8 @@ class HomeViewController: UIViewController {
         //Set Consumed Calorie Count
         consumedCalCount = Double(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.consumed + currentDate))
         targetCalCount = Double(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + currentDate))
-        consumedLbl.text = String(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.consumed + currentDate))
-        targetLbl.text = "Target: " + String(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + currentDate))
+        consumedLbl.text = String(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.consumed + currentDate)) + " \(Constants.labelStrings.cals)"
+        targetLbl.text = "Target: " + String(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + currentDate)) + " \(Constants.labelStrings.cals)"
         spentCalCount = Double(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + currentDate))
         stepsCount = Int(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.steps + currentDate))
         
