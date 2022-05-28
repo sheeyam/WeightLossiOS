@@ -47,6 +47,8 @@ struct Constants {
     
     struct labelStrings {
         static let cals = "Cals"
+        static let target = "Target:"
+        static let netCals = "Net Calories:"
     }
     
     struct alertStrings {
@@ -56,6 +58,11 @@ struct Constants {
         static let addConsumptionTitle = "Add Consumption"
         static let addConsumptionMsg = "Add New/Choose Consumption"
         static let faceIDReason = "Please authorize with Face ID"
+    }
+    
+    struct operations {
+        static let add = "add"
+        static let update = "update"
     }
     
     struct entities {

@@ -44,6 +44,12 @@ class ActivityViewController: UIViewController {
         activityData.removeAll()
     }
     
+    func reloadTable(){
+        DispatchQueue.main.async {
+            self.activityTableView.reloadData()
+        }
+    }
+    
     func fillLast30DayData(){
         for i in -30...0 {
             fillArray(index: i) //i will increment up one with each iteration of the for loop
@@ -67,7 +73,7 @@ class ActivityViewController: UIViewController {
         let targetCalCount = UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + formatter.string(from: day!))
         let activity = ActivityModel(activityDate: formatter.string(from: day!), activityConsumed: String(ConsumedCal), activityTarget: String(targetCalCount), activityBurnt: String(SpentCalCount))
         activityData.append(activity)
-        activityTableView.reloadData()
+        reloadTable()
     }
 }
 
@@ -79,9 +85,8 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         if activityData.count > 0 {
             return 1
-        } else {
-            return 0
         }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

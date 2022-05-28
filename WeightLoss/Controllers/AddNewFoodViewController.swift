@@ -42,7 +42,7 @@ class AddNewFoodViewController: UIViewController {
     }
     
     @IBAction func addNewFood(_ sender: Any) {
-        if(operation == "add") {
+        if(operation == Constants.operations.add) {
             let CalCount: Int = Int((foodCountTextField?.text)!)! * Int((foodCalTextField?.text)!)!
             self.saveFood(foodName: (foodNameTextField?.text)!,
                       foodCalorie: Double(CalCount),

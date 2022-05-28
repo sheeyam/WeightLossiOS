@@ -13,7 +13,6 @@ struct AngleCalculator {
         if consume > spent {
             if consume > 0 {
                 if 360 * ((consume - spent) / target) <= 360 {
-                    print(360 * ((consume - spent) / target))
                     return 360 * ((consume - spent) / target)
                 } else {
                     return 360

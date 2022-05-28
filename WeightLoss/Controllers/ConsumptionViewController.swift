@@ -20,24 +20,16 @@ class ConsumptionViewController: UIViewController {
     @IBOutlet weak var foodTableView: UITableView!
     @IBOutlet weak var consumedCalorieLbl: UILabel!
     
-    var mealTime: String = ""
+    var mealTime: String = Constants.meals.breakfast
     let date = Date()
     let formatter = DateFormatter()
     
     var index: Int = -1
-    var op: String = "add"
+    var op: String = Constants.operations.add
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-        mealTime = Constants.meals.breakfast
-        formatter.dateFormat = Constants.commonDF
-        let currentDate = formatter.string(from: date)
-        dateLbl.text = currentDate
-        
-        //Fill Arrays OnLoad
-        fillArrays()
+        setupInitialData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,9 +42,14 @@ class ConsumptionViewController: UIViewController {
         fillArrays()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func setupInitialData(){
+        formatter.dateFormat = Constants.commonDF
+        
+        let currentDate = formatter.string(from: date)
+        dateLbl.text = currentDate
+        
+        //Fill Arrays OnLoad
+        fillArrays()
     }
     
     @IBAction func addFoodConsumption(_ sender: Any) {
@@ -73,7 +70,7 @@ class ConsumptionViewController: UIViewController {
         default:
             break
         }
-        foodTableView.reloadData()
+        reloadTable()
     }
     
     func showAddFoodConsumptionAlert(){
@@ -102,7 +99,7 @@ class ConsumptionViewController: UIViewController {
     }
     
     func goToAddNewFoodVC() {
-        op = "add"
+        op = Constants.operations.add
         self.performSegue(withIdentifier: Constants.segues.consumptionToAddnew, sender: self)
     }
     
@@ -116,7 +113,7 @@ class ConsumptionViewController: UIViewController {
             let targetController = DestViewController.topViewController as! AddNewFoodViewController
             targetController.mealTime = mealTime
             targetController.operation = op
-            if op == "update" {
+            if op == Constants.operations.update {
                 targetController.consumptionItem = foodData[index]
             }
             targetController.callback = {
@@ -142,7 +139,13 @@ class ConsumptionViewController: UIViewController {
     
     func fillAndReload(){
         fillArrays()
-        foodTableView.reloadData()
+        reloadTable()
+    }
+    
+    func reloadTable(){
+        DispatchQueue.main.async {
+            self.foodTableView.reloadData()
+        }
     }
     
     func saveFood(foodData: FoodModel) {
@@ -172,7 +175,7 @@ class ConsumptionViewController: UIViewController {
     func getFood (index: Int) {
         let foodVal = food[index]
         foodData[index].foodName = (foodVal.value(forKeyPath: Constants.entities.keys.name) as? String)!
-        foodTableView.reloadData()
+        reloadTable()
     }
     
     func deleteData (name : String){
@@ -232,11 +235,9 @@ class ConsumptionViewController: UIViewController {
             for food in foodData {
                 totalSum += food.foodCalorie
             }
-            print(totalSum)
             consumedCalorieLbl.text = String(totalSum) + " Cal"
             UserDefaults.standard.set(String(totalSum), forKey: Constants.userDefaultKeys.consumed + currentDate)
-            print(foodData)
-            foodTableView.reloadData()
+            reloadTable()
         } catch let err as NSError {
             print(err.debugDescription)
         }
@@ -250,7 +251,6 @@ extension ConsumptionViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ foodTableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // your cell coding
         let data = foodData.filter({$0.foodType.uppercased() == mealTime.uppercased()})
         let cell:CustomConsumeCell = foodTableView.dequeueReusableCell(withIdentifier: CustomConsumeCell.identifier, for: indexPath) as! CustomConsumeCell
         cell.configureCell(foodData: data[indexPath.row])
@@ -258,10 +258,8 @@ extension ConsumptionViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ foodTableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // cell selected code here
         index = indexPath.row
-        //  print(index)
-        op = "update"
+        op = Constants.operations.update
         performSegue(withIdentifier: Constants.segues.consumptionToAddnew, sender: nil)
     }
     

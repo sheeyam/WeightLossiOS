@@ -75,7 +75,7 @@ class HomeViewController: UIViewController {
         consumedCalCount = Double(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.consumed + currentDate))
         targetCalCount = Double(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + currentDate))
         consumedLbl.text = String(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.consumed + currentDate)) + " \(Constants.labelStrings.cals)"
-        targetLbl.text = "Target: " + String(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + currentDate)) + " \(Constants.labelStrings.cals)"
+        targetLbl.text = "\(Constants.labelStrings.target) " + String(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + currentDate)) + " \(Constants.labelStrings.cals)"
         spentCalCount = Double(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + currentDate))
         stepsCount = Int(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.steps + currentDate))
         
@@ -122,7 +122,7 @@ class HomeViewController: UIViewController {
             } else {
                 netCalCount =  spentCalCount - consumedCalCount
             }
-            netLbl.text = "Net Calories: " + String(Int(netCalCount))
+            netLbl.text = "\(Constants.labelStrings.netCals) " + String(Int(netCalCount))
             
             consumedCalCount += 1
             let newConsumedAngleValue = angleCalc.newAngleConsumed(consumed: consumedCalCount, target: targetCalCount)
