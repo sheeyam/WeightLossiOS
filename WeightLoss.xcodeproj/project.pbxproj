@@ -44,6 +44,9 @@
 		E556503E2842BDE900B3945B /* WeightLossTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E556503D2842BDE900B3945B /* WeightLossTests.swift */; };
 		E55650452842BE1100B3945B /* WeightLossTests+AngleCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55650442842BE1100B3945B /* WeightLossTests+AngleCalculation.swift */; };
 		E55650472842E0F200B3945B /* DBFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55650462842E0F200B3945B /* DBFunctions.swift */; };
+		E55650492842EB0300B3945B /* Calculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55650482842EB0300B3945B /* Calculations.swift */; };
+		E556504B2842EF8300B3945B /* AddFoodViewController+PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E556504A2842EF8300B3945B /* AddFoodViewController+PickerView.swift */; };
+		E55650512842F0D300B3945B /* ActivityViewController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55650502842F0D300B3945B /* ActivityViewController+TableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +100,9 @@
 		E556503D2842BDE900B3945B /* WeightLossTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightLossTests.swift; sourceTree = "<group>"; };
 		E55650442842BE1100B3945B /* WeightLossTests+AngleCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeightLossTests+AngleCalculation.swift"; sourceTree = "<group>"; };
 		E55650462842E0F200B3945B /* DBFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBFunctions.swift; sourceTree = "<group>"; };
+		E55650482842EB0300B3945B /* Calculations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculations.swift; sourceTree = "<group>"; };
+		E556504A2842EF8300B3945B /* AddFoodViewController+PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddFoodViewController+PickerView.swift"; sourceTree = "<group>"; };
+		E55650502842F0D300B3945B /* ActivityViewController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActivityViewController+TableView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +197,7 @@
 			children = (
 				E556502F2836F8D300B3945B /* AngleCalculator.swift */,
 				E55650462842E0F200B3945B /* DBFunctions.swift */,
+				E55650482842EB0300B3945B /* Calculations.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -198,15 +205,13 @@
 		E55650262836A7AD00B3945B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E556504F2842F01500B3945B /* Activity */,
+				E556504E2842F00A00B3945B /* Home */,
+				E556504D2842EFF900B3945B /* AddConsumption */,
+				E556504C2842EFE600B3945B /* AddFood */,
 				E55650272836A7C400B3945B /* CustomCells */,
 				621D4BA0214E407100CE8A52 /* AuthViewController.swift */,
-				621D4BA2214E460E00CE8A52 /* HomeViewController.swift */,
-				E55650292836AB8600B3945B /* HomeViewController+Pedometer.swift */,
-				62DC0F03214F67EC0031EB10 /* ConsumptionViewController.swift */,
 				626BC93F215216280099D28D /* SettingsViewController.swift */,
-				6260B66E21569232008DA44F /* ActivityViewController.swift */,
-				628B22FF21816AA700A167FF /* AddFoodViewController.swift */,
-				62BEAE7C21821D0400734924 /* AddNewFoodViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -241,6 +246,42 @@
 				E55650442842BE1100B3945B /* WeightLossTests+AngleCalculation.swift */,
 			);
 			path = WeightLossTests;
+			sourceTree = "<group>";
+		};
+		E556504C2842EFE600B3945B /* AddFood */ = {
+			isa = PBXGroup;
+			children = (
+				62BEAE7C21821D0400734924 /* AddNewFoodViewController.swift */,
+			);
+			path = AddFood;
+			sourceTree = "<group>";
+		};
+		E556504D2842EFF900B3945B /* AddConsumption */ = {
+			isa = PBXGroup;
+			children = (
+				62DC0F03214F67EC0031EB10 /* ConsumptionViewController.swift */,
+				628B22FF21816AA700A167FF /* AddFoodViewController.swift */,
+				E556504A2842EF8300B3945B /* AddFoodViewController+PickerView.swift */,
+			);
+			path = AddConsumption;
+			sourceTree = "<group>";
+		};
+		E556504E2842F00A00B3945B /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				621D4BA2214E460E00CE8A52 /* HomeViewController.swift */,
+				E55650292836AB8600B3945B /* HomeViewController+Pedometer.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		E556504F2842F01500B3945B /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				6260B66E21569232008DA44F /* ActivityViewController.swift */,
+				E55650502842F0D300B3945B /* ActivityViewController+TableView.swift */,
+			);
+			path = Activity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -364,6 +405,7 @@
 				621D4BA1214E407100CE8A52 /* AuthViewController.swift in Sources */,
 				62BEAE7D21821D0400734924 /* AddNewFoodViewController.swift in Sources */,
 				E556503628375BF600B3945B /* Utility.swift in Sources */,
+				E55650512842F0D300B3945B /* ActivityViewController+TableView.swift in Sources */,
 				E556502E2836F00600B3945B /* ActivityModel.swift in Sources */,
 				E556502C2836AD2600B3945B /* Constants.swift in Sources */,
 				626BC940215216280099D28D /* SettingsViewController.swift in Sources */,
@@ -374,8 +416,10 @@
 				E55650322836FC3D00B3945B /* FoodModel.swift in Sources */,
 				E55650472842E0F200B3945B /* DBFunctions.swift in Sources */,
 				621D4B8C214E3D8100CE8A52 /* AppDelegate.swift in Sources */,
+				E556504B2842EF8300B3945B /* AddFoodViewController+PickerView.swift in Sources */,
 				62919CB921BCEE360090661D /* CustomConsumeCell.swift in Sources */,
 				62DC0F04214F67EC0031EB10 /* ConsumptionViewController.swift in Sources */,
+				E55650492842EB0300B3945B /* Calculations.swift in Sources */,
 				E556503428370DBE00B3945B /* ConsumptionModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

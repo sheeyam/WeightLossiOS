@@ -86,9 +86,6 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             let foods = results as! [Food]
             
             for _food in foods {
-                print(_food.name!)
-                print(_food.calorie)
-                print(_food.type!)
                 
                 let consumption = ConsumptionModel(foodName: _food.name!, foodCalorie: Int(_food.calorie), foodType: _food.type!)
                 consumptionData.append(consumption)
@@ -116,31 +113,6 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
                       foodICalorie: Double(Int(foodCount)!),
                       foodCount: Int16(foodCalories)!)
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return consumptionData.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return consumptionData[row].foodName
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
-    {
-        foodNameTextField.text = consumptionData[row].foodName
-        foodCalTextField.text = String(consumptionData[row].foodCalorie)
-        foodCountTextField.text = "1"
-        foodPickerView.isHidden = true
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {

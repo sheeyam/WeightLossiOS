@@ -20,6 +20,9 @@ class HistoryViewCell: UITableViewCell {
     //Constants
     static let identifier = Constants.customCells.historyViewCellIdentifier
     
+    let angleCalc = AngleCalculator()
+    let calcBL = Calculations()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -27,77 +30,61 @@ class HistoryViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
+    }
+    
+    func animateProgress(newburntAngleValue: Double){
+        DispatchQueue.main.async {
+            self.historyProgressView.animate(toAngle: newburntAngleValue, duration: 1.0, completion: nil)
+        }
     }
     
     func configureCell(activityData: ActivityModel) {
         historyDateLbl.text = activityData.activityDate
-        historyConsumedLbl.text = "Consumed = " + activityData.activityConsumed + " \(Constants.labelStrings.cals)"
-        historyBurntLbl.text = "Burnt = " + activityData.activityBurnt + " \(Constants.labelStrings.cals)"
-        historyTargetLbl.text = "Target = " + activityData.activityTarget + " \(Constants.labelStrings.cals)"
+        historyConsumedLbl.text = Constants.labelStrings.consumedStr + activityData.activityConsumed + " \(Constants.labelStrings.cals)"
+        historyBurntLbl.text = Constants.labelStrings.burntStr + activityData.activityBurnt + " \(Constants.labelStrings.cals)"
+        historyTargetLbl.text = Constants.labelStrings.targetStr + activityData.activityTarget + " \(Constants.labelStrings.cals)"
         
         let targetCalCount = Double(activityData.activityTarget)!
         let spentCalCount = Double(activityData.activityBurnt)!
         let consumedCalCount = Double(activityData.activityConsumed)!
-        var netCalCount = 0.0
         
-        if(consumedCalCount > spentCalCount) {
-            netCalCount = (consumedCalCount - spentCalCount) / targetCalCount
-        } else {
-            netCalCount =  (spentCalCount - consumedCalCount) / targetCalCount
-        }
-        
-        if !(netCalCount.isNaN || netCalCount.isInfinite) {
-            if netCalCount > 0 {
-                historyProgressLbl.text = String(Int(netCalCount * 100)) + "%"
+        if let netCalCount = calcBL.getNetCaloriesCount(consumedCalCount: consumedCalCount, spentCalCount: spentCalCount, targetCalCount: targetCalCount) {
+            
+            if !(netCalCount.isNaN || netCalCount.isInfinite) {
+                if netCalCount > 0 {
+                    historyProgressLbl.text = String(Int(netCalCount * 100)) + "%"
+                } else {
+                    historyProgressLbl.text = Constants.progressStrings.progressZero
+                }
             } else {
                 historyProgressLbl.text = Constants.progressStrings.progressZero
             }
-        } else {
-            historyProgressLbl.text = Constants.progressStrings.progressZero
         }
         
-        let newburntAngleValue = newAngle(consume: consumedCalCount, spent: spentCalCount, target: targetCalCount)
-        historyProgressView.animate(toAngle: newburntAngleValue, duration: 1.0, completion: nil)
+        let newburntAngleValue = angleCalc.newAngle(consume: consumedCalCount, spent: spentCalCount, target: targetCalCount)
+        animateProgress(newburntAngleValue: newburntAngleValue)
         
+        configureBGColor(activityData: activityData)
+    }
+    
+    func configureBGColor(activityData: ActivityModel){
         contentView.backgroundColor = UIColor.white
         if Int(activityData.activityConsumed)! >= Int(activityData.activityBurnt)! {
             if Int(activityData.activityConsumed)! - Int(activityData.activityBurnt)! >= Int(activityData.activityTarget)! {
                 if(Int(activityData.activityTarget)! == 0) {
-                    contentView.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
+                    contentView.backgroundColor = Constants.colors.color04
                 } else {
-                    contentView.backgroundColor = UIColor(red: 236.0/255, green: 73.0/255, blue: 34.0/255, alpha: 0.4)
+                    contentView.backgroundColor = Constants.colors.color05
                 }
             } else {
                 if(Int(activityData.activityTarget)! == 0) {
-                    contentView.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
+                    contentView.backgroundColor = Constants.colors.color04
                 } else {
-                    contentView.backgroundColor = UIColor(red: 79.0/255, green: 178.0/255, blue: 52.0/255, alpha: 0.4)
+                    contentView.backgroundColor = Constants.colors.color06
                 }
             }
         } else {
-            contentView.backgroundColor = UIColor(red: 255.0/255, green: 209.0/255, blue: 26.0/255, alpha: 0.4)
+            contentView.backgroundColor = Constants.colors.color07
         }
     }
-    
-    func newAngle(consume: Double, spent: Double, target: Double) -> Double {
-        if consume > spent {
-            if consume > 0 {
-                if 360 * ((consume - spent) / target) <= 360 {
-                    print(360 * ((consume - spent) / target))
-                    return 360 * ((consume - spent) / target)
-                    
-                } else {
-                    return 360
-                }
-            } else {
-                return 0
-            }
-        } else {
-            return 0
-        }
-        
-    }
-    
 }

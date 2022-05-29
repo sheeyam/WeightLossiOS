@@ -49,6 +49,10 @@ struct Constants {
         static let cals = "Cals"
         static let target = "Target:"
         static let netCals = "Net Calories:"
+        
+        static let consumedStr = "Consumed = "
+        static let burntStr = "Burnt = "
+        static let targetStr = "Target = "
     }
     
     struct alertStrings {
@@ -93,6 +97,10 @@ struct Constants {
         static let color01 = UIColor(red: 236.0/255, green: 73.0/255, blue: 34.0/255, alpha: 1)
         static let color02 = UIColor(red: 236.0/255, green: 199.0/255, blue: 52.0/255, alpha: 1)
         static let color03 = UIColor(red: 79.0/255, green: 178.0/255, blue: 52.0/255, alpha: 1)
+        static let color04 = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
+        static let color05 = UIColor(red: 236.0/255, green: 73.0/255, blue: 34.0/255, alpha: 0.4)
+        static let color06 = UIColor(red: 79.0/255, green: 178.0/255, blue: 52.0/255, alpha: 0.4)
+        static let color07 = UIColor(red: 255.0/255, green: 209.0/255, blue: 26.0/255, alpha: 0.4)
     }
     
     struct progressStrings {

@@ -11,7 +11,6 @@ import UIKit
 class SettingsViewController: UIViewController {
     
     let formatter = DateFormatter()
-    
     @IBOutlet weak var enableDisableTouchIDSwitch: UISwitch!
     @IBOutlet weak var setNameTextField: UITextField!
     @IBOutlet weak var setTargetTextField: UITextField!
@@ -19,14 +18,18 @@ class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        formatter.dateFormat = Constants.commonDF
+        setupInitialData()
+        setupTapGesture()
+    }
+    
+    func setupTapGesture(){
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:#selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
-        setupInitialData()
     }
     
     func setupInitialData(){
+        formatter.dateFormat = Constants.commonDF
         if(UserDefaults.standard.bool(forKey: Constants.userDefaultKeys.faceID)) {
             enableDisableTouchIDSwitch.setOn(true, animated: true)
         } else {
@@ -69,12 +72,6 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func logout(_ sender: Any) {
-        //logout
         self.dismiss(animated: true, completion: nil)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }
