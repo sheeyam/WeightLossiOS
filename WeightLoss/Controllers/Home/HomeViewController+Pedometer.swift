@@ -10,7 +10,15 @@ import Foundation
 import CoreMotion
 import UIKit
 
+let activityManager = CMMotionActivityManager()
+let pedometer = CMPedometer()
+var sc: Int = 0
+var spc: Int = 0
+let caloriePerStep = 1
+var startDate: Date? = nil
+
 extension HomeViewController {
+    
     func onStart() {
         //startBtn.setTitle("Stop", for: .normal)
         startDate = Date()
@@ -100,11 +108,12 @@ extension HomeViewController {
             guard let pedometerData = pedometerData, error == nil else { return }
             
             DispatchQueue.main.async {
-                let currentDate = self?.formatter.string(from: (self?.date)!)
-                self?.sc = UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.steps + currentDate!) + Int(truncating: pedometerData.numberOfSteps)
-                self?.spc = UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + currentDate!) + Int(pedometerData.numberOfSteps.intValue * (self?.caloriePerStep)!)
-                UserDefaults.standard.set(self?.sc, forKey: Constants.userDefaultKeys.steps + currentDate!)
-                UserDefaults.standard.set(self?.spc, forKey: Constants.userDefaultKeys.spent + currentDate!)
+                if let currentDate = self?.formatter.string(from: Date()) {
+                    sc = UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.steps + currentDate) + Int(truncating: pedometerData.numberOfSteps)
+                    spc = UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + currentDate) + Int(pedometerData.numberOfSteps.intValue * caloriePerStep)
+                    UserDefaults.standard.set(sc, forKey: Constants.userDefaultKeys.steps + currentDate)
+                    UserDefaults.standard.set(spc, forKey: Constants.userDefaultKeys.spent + currentDate)
+                }
             }
         }
     }

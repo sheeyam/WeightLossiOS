@@ -34,6 +34,8 @@
 		62DC0F04214F67EC0031EB10 /* ConsumptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DC0F03214F67EC0031EB10 /* ConsumptionViewController.swift */; };
 		62E5A8562179ACF900F51039 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E5A8542179ACF800F51039 /* launchicon.png */; };
 		62E5A8572179ACF900F51039 /* appicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E5A8552179ACF800F51039 /* appicon.png */; };
+		E5401933284736D900604397 /* AddNewFoodViewController+DBLogics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5401932284736D900604397 /* AddNewFoodViewController+DBLogics.swift */; };
+		E54019352847372500604397 /* ConsumptionViewController+Tableview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54019342847372500604397 /* ConsumptionViewController+Tableview.swift */; };
 		E556502A2836AB8600B3945B /* HomeViewController+Pedometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55650292836AB8600B3945B /* HomeViewController+Pedometer.swift */; };
 		E556502C2836AD2600B3945B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E556502B2836AD2600B3945B /* Constants.swift */; };
 		E556502E2836F00600B3945B /* ActivityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E556502D2836F00600B3945B /* ActivityModel.swift */; };
@@ -47,6 +49,7 @@
 		E55650492842EB0300B3945B /* Calculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55650482842EB0300B3945B /* Calculations.swift */; };
 		E556504B2842EF8300B3945B /* AddFoodViewController+PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E556504A2842EF8300B3945B /* AddFoodViewController+PickerView.swift */; };
 		E55650512842F0D300B3945B /* ActivityViewController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55650502842F0D300B3945B /* ActivityViewController+TableView.swift */; };
+		E5565053284720F700B3945B /* WeightLossTests+CalorieEquations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5565052284720F700B3945B /* WeightLossTests+CalorieEquations.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +92,8 @@
 		62DC0F03214F67EC0031EB10 /* ConsumptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumptionViewController.swift; sourceTree = "<group>"; };
 		62E5A8542179ACF800F51039 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchicon.png; sourceTree = "<group>"; };
 		62E5A8552179ACF800F51039 /* appicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appicon.png; sourceTree = "<group>"; };
+		E5401932284736D900604397 /* AddNewFoodViewController+DBLogics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddNewFoodViewController+DBLogics.swift"; sourceTree = "<group>"; };
+		E54019342847372500604397 /* ConsumptionViewController+Tableview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConsumptionViewController+Tableview.swift"; sourceTree = "<group>"; };
 		E55650292836AB8600B3945B /* HomeViewController+Pedometer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewController+Pedometer.swift"; sourceTree = "<group>"; };
 		E556502B2836AD2600B3945B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E556502D2836F00600B3945B /* ActivityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityModel.swift; sourceTree = "<group>"; };
@@ -103,6 +108,7 @@
 		E55650482842EB0300B3945B /* Calculations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculations.swift; sourceTree = "<group>"; };
 		E556504A2842EF8300B3945B /* AddFoodViewController+PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddFoodViewController+PickerView.swift"; sourceTree = "<group>"; };
 		E55650502842F0D300B3945B /* ActivityViewController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActivityViewController+TableView.swift"; sourceTree = "<group>"; };
+		E5565052284720F700B3945B /* WeightLossTests+CalorieEquations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeightLossTests+CalorieEquations.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +250,7 @@
 			children = (
 				E556503D2842BDE900B3945B /* WeightLossTests.swift */,
 				E55650442842BE1100B3945B /* WeightLossTests+AngleCalculation.swift */,
+				E5565052284720F700B3945B /* WeightLossTests+CalorieEquations.swift */,
 			);
 			path = WeightLossTests;
 			sourceTree = "<group>";
@@ -251,7 +258,10 @@
 		E556504C2842EFE600B3945B /* AddFood */ = {
 			isa = PBXGroup;
 			children = (
+				628B22FF21816AA700A167FF /* AddFoodViewController.swift */,
+				E556504A2842EF8300B3945B /* AddFoodViewController+PickerView.swift */,
 				62BEAE7C21821D0400734924 /* AddNewFoodViewController.swift */,
+				E5401932284736D900604397 /* AddNewFoodViewController+DBLogics.swift */,
 			);
 			path = AddFood;
 			sourceTree = "<group>";
@@ -260,8 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				62DC0F03214F67EC0031EB10 /* ConsumptionViewController.swift */,
-				628B22FF21816AA700A167FF /* AddFoodViewController.swift */,
-				E556504A2842EF8300B3945B /* AddFoodViewController+PickerView.swift */,
+				E54019342847372500604397 /* ConsumptionViewController+Tableview.swift */,
 			);
 			path = AddConsumption;
 			sourceTree = "<group>";
@@ -400,10 +409,12 @@
 			files = (
 				628B230021816AA700A167FF /* AddFoodViewController.swift in Sources */,
 				E55650302836F8D300B3945B /* AngleCalculator.swift in Sources */,
+				E54019352847372500604397 /* ConsumptionViewController+Tableview.swift in Sources */,
 				E556502A2836AB8600B3945B /* HomeViewController+Pedometer.swift in Sources */,
 				621D4BA3214E460E00CE8A52 /* HomeViewController.swift in Sources */,
 				621D4BA1214E407100CE8A52 /* AuthViewController.swift in Sources */,
 				62BEAE7D21821D0400734924 /* AddNewFoodViewController.swift in Sources */,
+				E5401933284736D900604397 /* AddNewFoodViewController+DBLogics.swift in Sources */,
 				E556503628375BF600B3945B /* Utility.swift in Sources */,
 				E55650512842F0D300B3945B /* ActivityViewController+TableView.swift in Sources */,
 				E556502E2836F00600B3945B /* ActivityModel.swift in Sources */,
@@ -429,6 +440,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E55650452842BE1100B3945B /* WeightLossTests+AngleCalculation.swift in Sources */,
+				E5565053284720F700B3945B /* WeightLossTests+CalorieEquations.swift in Sources */,
 				E556503E2842BDE900B3945B /* WeightLossTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

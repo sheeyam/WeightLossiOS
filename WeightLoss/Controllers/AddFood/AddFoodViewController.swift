@@ -34,7 +34,6 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         foodNameTextField.delegate = self
         foodCalTextField.delegate = self
         foodPickerView.isHidden = true
-        
         self.hideKeyboardWhenTappedAround()
     }
     
@@ -86,7 +85,6 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             let foods = results as! [Food]
             
             for _food in foods {
-                
                 let consumption = ConsumptionModel(foodName: _food.name!, foodCalorie: Int(_food.calorie), foodType: _food.type!)
                 consumptionData.append(consumption)
                 foodPickerView.reloadAllComponents()
@@ -103,7 +101,6 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     }
     
     @IBAction func AddFoodConsumption(_ sender: Any) {
-        
         if let foodCount = foodCountTextField?.text, let foodCalories = foodCalTextField?.text {
             let CalCount: Int = Int(foodCount)! * Int(foodCalories)!
             self.saveFood(foodName: (foodNameTextField?.text)!,

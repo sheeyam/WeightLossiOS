@@ -10,6 +10,7 @@ import UIKit
 
 class HistoryViewCell: UITableViewCell {
     
+    //Outlets
     @IBOutlet weak var historyDateLbl: UILabel!
     @IBOutlet weak var historyConsumedLbl: UILabel!
     @IBOutlet weak var historyBurntLbl: UILabel!
@@ -18,14 +19,14 @@ class HistoryViewCell: UITableViewCell {
     @IBOutlet weak var historyProgressView: KDCircularProgress!
     
     //Constants
-    static let identifier = Constants.customCells.historyViewCellIdentifier
-    
     let angleCalc = AngleCalculator()
     let calcBL = Calculations()
     
+    //Constants
+    static let identifier = Constants.customCells.historyViewCellIdentifier
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -44,47 +45,33 @@ class HistoryViewCell: UITableViewCell {
         historyBurntLbl.text = Constants.labelStrings.burntStr + activityData.activityBurnt + " \(Constants.labelStrings.cals)"
         historyTargetLbl.text = Constants.labelStrings.targetStr + activityData.activityTarget + " \(Constants.labelStrings.cals)"
         
-        let targetCalCount = Double(activityData.activityTarget)!
-        let spentCalCount = Double(activityData.activityBurnt)!
-        let consumedCalCount = Double(activityData.activityConsumed)!
-        
-        if let netCalCount = calcBL.getNetCaloriesCount(consumedCalCount: consumedCalCount, spentCalCount: spentCalCount, targetCalCount: targetCalCount) {
-            
-            if !(netCalCount.isNaN || netCalCount.isInfinite) {
-                if netCalCount > 0 {
-                    historyProgressLbl.text = String(Int(netCalCount * 100)) + "%"
+        if let targetCalCount = Double(activityData.activityTarget),let spentCalCount = Double(activityData.activityBurnt), let consumedCalCount = Double(activityData.activityConsumed){
+            if let netCalCount = calcBL.getNetCaloriesCount(consumedCalCount: consumedCalCount, spentCalCount: spentCalCount, targetCalCount: targetCalCount) {
+                if !(netCalCount.isNaN || netCalCount.isInfinite) {
+                    historyProgressLbl.text = netCalCount > 0 ? (String(Int(netCalCount * 100)) + "%") : Constants.progressStrings.progressZero
                 } else {
                     historyProgressLbl.text = Constants.progressStrings.progressZero
                 }
-            } else {
-                historyProgressLbl.text = Constants.progressStrings.progressZero
             }
+            
+            let newburntAngleValue = angleCalc.newAngle(consume: consumedCalCount, spent: spentCalCount, target: targetCalCount)
+            animateProgress(newburntAngleValue: newburntAngleValue)
+            configureBGColor(activityData: activityData)
         }
-        
-        let newburntAngleValue = angleCalc.newAngle(consume: consumedCalCount, spent: spentCalCount, target: targetCalCount)
-        animateProgress(newburntAngleValue: newburntAngleValue)
-        
-        configureBGColor(activityData: activityData)
     }
     
     func configureBGColor(activityData: ActivityModel){
         contentView.backgroundColor = UIColor.white
-        if Int(activityData.activityConsumed)! >= Int(activityData.activityBurnt)! {
-            if Int(activityData.activityConsumed)! - Int(activityData.activityBurnt)! >= Int(activityData.activityTarget)! {
-                if(Int(activityData.activityTarget)! == 0) {
-                    contentView.backgroundColor = Constants.colors.color04
+        if let consumed = Int(activityData.activityConsumed), let burnt = Int(activityData.activityBurnt), let target = Int(activityData.activityTarget) {
+            if consumed >= burnt {
+                if consumed - burnt >= target {
+                    contentView.backgroundColor = target == 0 ? Constants.colors.color04 : Constants.colors.color05
                 } else {
-                    contentView.backgroundColor = Constants.colors.color05
+                    contentView.backgroundColor = target == 0 ? Constants.colors.color04 : Constants.colors.color06
                 }
             } else {
-                if(Int(activityData.activityTarget)! == 0) {
-                    contentView.backgroundColor = Constants.colors.color04
-                } else {
-                    contentView.backgroundColor = Constants.colors.color06
-                }
+                contentView.backgroundColor = Constants.colors.color07
             }
-        } else {
-            contentView.backgroundColor = Constants.colors.color07
         }
     }
 }

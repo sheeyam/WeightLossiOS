@@ -10,8 +10,10 @@ import UIKit
 
 class ActivityViewController: UIViewController {
     
+    //Outlets
     @IBOutlet weak var activityTableView: UITableView!
     
+    //Constants & Variables
     let formatter = DateFormatter()
     var refreshControl: UIRefreshControl!
     var activityData: [ActivityModel] = []

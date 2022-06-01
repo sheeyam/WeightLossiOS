@@ -11,13 +11,6 @@ import CoreMotion
 import Dispatch
 
 class HomeViewController: UIViewController {
-    
-    let activityManager = CMMotionActivityManager()
-    let pedometer = CMPedometer()
-    var shouldStartUpdating: Bool = false
-    var startDate: Date? = nil
-    let angleCalc = AngleCalculator()
-    
     @IBOutlet weak var consumedProgressView: KDCircularProgress!
     @IBOutlet weak var burntProgressView: KDCircularProgress!
     @IBOutlet weak var spentLbl: UILabel!
@@ -31,21 +24,19 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var consumedLbl: UILabel!
     @IBOutlet weak var activityImageView: UIImageView!
     
+    let angleCalc = AngleCalculator()
     let date = Date()
     let formatter = DateFormatter()
-    var timer = Timer()
+    
     var spentCalCount: Double = 0
     var targetCalCount: Double = 0
     var consumedCalCount: Double = 0
     var netCalCount: Double = 0
     var stepsCount: Int = 0
-    var sc: Int = 0
-    var spc: Int = 0
-    let caloriePerStep = 1
-    
+    var shouldStartUpdating: Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         //scheduledTimerWithTimeInterval()
         shouldStartUpdating = !shouldStartUpdating
         shouldStartUpdating ? (onStart()) : (onStop())
@@ -57,7 +48,6 @@ class HomeViewController: UIViewController {
         super.viewDidAppear(true)
         
         loadContent()
-        // Do any additional setup after loading the view.
         activityImageView.image = UIImage(named: Constants.icons.standing)
     }
     
@@ -83,7 +73,6 @@ class HomeViewController: UIViewController {
             consumedProgressNumberLabel.text = Constants.progressStrings.progressZero
             burntProgressNumberLabel.text = Constants.progressStrings.progressZero
         } else {
-            
             if (0 == UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + currentDate)) {
                 burntProgressNumberLabel.text = Constants.progressStrings.progressZero
             } else {

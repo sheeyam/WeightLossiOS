@@ -11,19 +11,19 @@ import CoreData
 
 class ConsumptionViewController: UIViewController {
     
-    var food: [NSManagedObject] = []
-    var consumption: [NSManagedObject] = []
-    var foodData: [FoodModel] = []
-    
+    //Outlets
     @IBOutlet weak var dateLbl: UILabel!
     @IBOutlet weak var mealSegmentCtl: UISegmentedControl!
     @IBOutlet weak var foodTableView: UITableView!
     @IBOutlet weak var consumedCalorieLbl: UILabel!
     
-    var mealTime: String = Constants.meals.breakfast
+    //Constants and Variables
     let date = Date()
     let formatter = DateFormatter()
-    
+    var mealTime: String = Constants.meals.breakfast
+    var food: [NSManagedObject] = []
+    var consumption: [NSManagedObject] = []
+    var foodData: [FoodModel] = []
     var index: Int = -1
     var op: String = Constants.operations.add
     
@@ -148,56 +148,10 @@ class ConsumptionViewController: UIViewController {
         }
     }
     
-    func saveFood(foodData: FoodModel) {
-        guard let appDelegate = UIApplication.shared.delegate
-            as? AppDelegate else {
-                return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: Constants.entities.food, in: managedContext)!
-        let foodItem = NSManagedObject(entity: entity, insertInto: managedContext)
-        
-        foodItem.setValue(foodData.foodName, forKeyPath: Constants.entities.keys.name)
-        foodItem.setValue(foodData.foodDate, forKeyPath: Constants.entities.keys.date)
-        foodItem.setValue(foodData.foodCalorie, forKeyPath: Constants.entities.keys.calorie)
-        foodItem.setValue(foodData.foodType, forKeyPath: Constants.entities.keys.type)
-        
-        do {
-            try managedContext.save()
-            food.append(foodItem)
-            fillArrays()
-        } catch let error as NSError {
-            print("\(error), \(error.userInfo)")
-        }
-    }
-    
     func getFood (index: Int) {
         let foodVal = food[index]
         foodData[index].foodName = (foodVal.value(forKeyPath: Constants.entities.keys.name) as? String)!
         reloadTable()
-    }
-    
-    func deleteData (name : String){
-        guard let appDelegate = UIApplication.shared.delegate
-            as? AppDelegate else {
-                return
-        }
-        let context = appDelegate.persistentContainer.viewContext
-        let fetchRequest: NSFetchRequest<Consume> = Consume.fetchRequest()
-        fetchRequest.predicate =  NSPredicate(format: "name= %@", name)
-        let objects = try! context.fetch(fetchRequest)
-        for obj in objects {
-            context.delete(obj)
-        }
-        
-        do {
-            try context.save() // <- remember to put this :)
-            print("Consumption Deleted ")
-            fillArrays()
-        } catch {
-            // Do something... fatalerror
-        }
     }
     
     func fillArrays(){
@@ -244,32 +198,25 @@ class ConsumptionViewController: UIViewController {
     }
 }
 
-extension ConsumptionViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ foodTableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return foodData.filter({$0.foodType.uppercased() == mealTime.uppercased()}).count
-    }
-    
-    func tableView(_ foodTableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let data = foodData.filter({$0.foodType.uppercased() == mealTime.uppercased()})
-        let cell:CustomConsumeCell = foodTableView.dequeueReusableCell(withIdentifier: CustomConsumeCell.identifier, for: indexPath) as! CustomConsumeCell
-        cell.configureCell(foodData: data[indexPath.row])
-        return cell
-    }
-    
-    func tableView(_ foodTableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        index = indexPath.row
-        op = Constants.operations.update
-        performSegue(withIdentifier: Constants.segues.consumptionToAddnew, sender: nil)
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if(editingStyle == UITableViewCell.EditingStyle.delete){
-            let index = indexPath.row
-            let foodToBeDeleted = foodData[index]
-            self.deleteData(name:foodToBeDeleted.foodName)
-            foodData.remove(at: index)
-            self.fillAndReload()
+extension ConsumptionViewController {
+    func deleteData(name : String){
+        guard let appDelegate = UIApplication.shared.delegate
+            as? AppDelegate else {
+                return
+        }
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<Consume> = Consume.fetchRequest()
+        fetchRequest.predicate =  NSPredicate(format: "name= %@", name)
+        let objects = try! context.fetch(fetchRequest)
+        for obj in objects {
+            context.delete(obj)
+        }
+        
+        do {
+            try context.save()
+            fillArrays()
+        } catch let error as NSError{
+            print("\(error), \(error.userInfo)")
         }
     }
 }
