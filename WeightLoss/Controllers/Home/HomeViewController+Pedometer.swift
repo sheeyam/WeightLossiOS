@@ -10,40 +10,25 @@ import Foundation
 import CoreMotion
 import UIKit
 
+//Constants and Variables
 let activityManager = CMMotionActivityManager()
 let pedometer = CMPedometer()
-var sc: Int = 0
-var spc: Int = 0
-let caloriePerStep = 1
+var sc:Int = 0
+var spc:Int = 0
 var startDate: Date? = nil
 
+//Extension - Pedometer Logics
 extension HomeViewController {
     
     func onStart() {
-        //startBtn.setTitle("Stop", for: .normal)
         startDate = Date()
         checkAuthorizationStatus()
         startUpdating()
     }
     
     func onStop() {
-        // startBtn.setTitle("Start", for: .normal)
         startDate = nil
         stopUpdating()
-    }
-    
-    private func startUpdating() {
-        if CMMotionActivityManager.isActivityAvailable() {
-            startTrackingActivityType()
-        } else {
-            //activityLbl.text = "Not available"
-        }
-        
-        if CMPedometer.isStepCountingAvailable() {
-            startCountingSteps()
-        } else {
-            //stepsLbl.text = "Not available"
-        }
     }
     
     private func checkAuthorizationStatus() {
@@ -55,18 +40,23 @@ extension HomeViewController {
         }
     }
     
+    private func startUpdating() {
+        if CMMotionActivityManager.isActivityAvailable() {
+            startTrackingActivityType()
+        }
+        
+        if CMPedometer.isStepCountingAvailable() {
+            startCountingSteps()
+        }
+    }
+    
     private func stopUpdating() {
         activityManager.stopActivityUpdates()
         pedometer.stopUpdates()
         pedometer.stopEventUpdates()
     }
     
-    private func on(error: Error) {
-        //handle error
-    }
-    
     private func updateStepsCountLabelUsing(startDate: Date) {
-        print("=== Update Counting Steps & Calories ===")
         pedometer.queryPedometerData(from: startDate, to: Date()) {
             [weak self] pedometerData, error in
             if let error = error {
@@ -110,11 +100,16 @@ extension HomeViewController {
             DispatchQueue.main.async {
                 if let currentDate = self?.formatter.string(from: Date()) {
                     sc = UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.steps + currentDate) + Int(truncating: pedometerData.numberOfSteps)
-                    spc = UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + currentDate) + Int(pedometerData.numberOfSteps.intValue * caloriePerStep)
+                    spc = UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + currentDate) + Int(pedometerData.numberOfSteps.intValue * Constants.caloriePerStep)
                     UserDefaults.standard.set(sc, forKey: Constants.userDefaultKeys.steps + currentDate)
                     UserDefaults.standard.set(spc, forKey: Constants.userDefaultKeys.spent + currentDate)
                 }
             }
         }
+    }
+    
+    private func on(error: Error) {
+        //TODO: Show an Alert
+        print(error.localizedDescription)
     }
 }

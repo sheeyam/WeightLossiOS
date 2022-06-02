@@ -493,7 +493,7 @@ public class KDCircularProgress: UIView, CAAnimationDelegate {
                     let step = 1 / CGFloat(steps)
                     for i in 1...steps {
                         let fi = CGFloat(i)
-                        if (t <= fi * step || i == steps) {
+                        if t <= fi * step || i == steps {
                             let colorT = Utility.inverseLerp(value: t, minMax: ((fi - 1) * step, fi * step))
                             color = Utility.colorLerp(value: colorT, minMax: (colorsArray[i - 1], colorsArray[i]))
                             break

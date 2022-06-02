@@ -22,8 +22,11 @@ extension AddFoodViewController {
         return consumptionData[row].foodName
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
-    {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        setDefaultValuesOnLbls(row: row)
+    }
+    
+    func setDefaultValuesOnLbls(row: Int){
         foodNameTextField.text = consumptionData[row].foodName
         foodCalTextField.text = String(consumptionData[row].foodCalorie)
         foodCountTextField.text = "1"

@@ -12,7 +12,7 @@ struct Calculations {
     
     func getNetCaloriesCount(consumedCalCount: Double, spentCalCount: Double, targetCalCount: Double) -> Double? {
         var netCalCount: Double?
-        if(consumedCalCount > spentCalCount) {
+        if consumedCalCount > spentCalCount {
             netCalCount = (consumedCalCount - spentCalCount) / targetCalCount
         } else {
             netCalCount =  (spentCalCount - consumedCalCount) / targetCalCount

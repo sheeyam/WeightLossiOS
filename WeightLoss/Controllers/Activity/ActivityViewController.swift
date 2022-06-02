@@ -51,28 +51,25 @@ class ActivityViewController: UIViewController {
     }
     
     func fillLast30DayData(){
-        for i in -30...0 {
-            fillArray(index: i) //i will increment up one with each iteration of the for loop
-        }
-    }
-    
-    func fillArray(index:Int?){
-        if let idx = index {
+        for idx in -30...0 {
             let activity = generateActivity(index: idx)
             activityData.append(activity)
-            reloadTable()
         }
+        reloadTable()
     }
     
     func generateActivity(index: Int) -> ActivityModel {
-        formatter.dateFormat = Constants.commonDF
         var dateComponents = DateComponents()
         dateComponents.setValue(abs(index) - 30, for: .day) // -1 day
-        let day = Calendar.current.date(byAdding: dateComponents, to: Date())
-        let ConsumedCal = Int(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.consumed + formatter.string(from: day!)))
-        let SpentCalCount = Int(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + formatter.string(from: day!)))
-        let targetCalCount = UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + formatter.string(from: day!))
-        let activity = ActivityModel(activityDate: formatter.string(from: day!), activityConsumed: String(ConsumedCal), activityTarget: String(targetCalCount), activityBurnt: String(SpentCalCount))
+        
+        var activity = ActivityModel()
+        if let day = Calendar.current.date(byAdding: dateComponents, to: Date()) {
+            let ConsumedCal = Int(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.consumed + formatter.string(from: day)))
+            let SpentCalCount = Int(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + formatter.string(from: day)))
+            let targetCalCount = UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + formatter.string(from: day))
+            activity = ActivityModel(activityDate: formatter.string(from: day), activityConsumed: String(ConsumedCal), activityTarget: String(targetCalCount), activityBurnt: String(SpentCalCount))
+            return activity
+        }
         return activity
     }
 }

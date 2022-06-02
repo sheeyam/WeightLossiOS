@@ -26,7 +26,6 @@ class AddNewFoodViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setValues()
-        // Do any additional setup after loading the view.
     }
     
     func setValues(){
@@ -38,14 +37,13 @@ class AddNewFoodViewController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func addNewFood(_ sender: Any) {
         if let foodCountStr = foodCountTextField?.text, let foodCalStr = foodCalTextField?.text, let foodCount = Int(foodCountStr), let foodCal = Int(foodCalStr){
             let CalCount = foodCount * foodCal
             
-            if(operation == Constants.operations.add) {
+            if operation == Constants.operations.add {
                 self.saveFood(foodName: foodNameTextField?.text ?? "",
                           foodCalorie: Double(CalCount),
                           foodType: consumptionItem?.foodType ?? mealTime,

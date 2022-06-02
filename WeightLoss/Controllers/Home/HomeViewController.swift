@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreMotion
-import Dispatch
 
 class HomeViewController: UIViewController {
     @IBOutlet weak var consumedProgressView: KDCircularProgress!
@@ -37,7 +36,6 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //scheduledTimerWithTimeInterval()
         shouldStartUpdating = !shouldStartUpdating
         shouldStartUpdating ? (onStart()) : (onStop())
         loadContent()
@@ -52,10 +50,10 @@ class HomeViewController: UIViewController {
     }
     
     func loadContent(){
-        if (UserDefaults.standard.string(forKey: Constants.userDefaultKeys.name) ?? "").isEmpty {
-            userLbl.text = "Hi, Guest"
+        if let name = UserDefaults.standard.string(forKey: Constants.userDefaultKeys.name) {
+            userLbl.text = "Hi, " + name
         } else {
-            userLbl.text = "Hi, " + UserDefaults.standard.string(forKey: Constants.userDefaultKeys.name)!
+            userLbl.text = "Hi, Guest"
         }
         
         formatter.dateFormat = Constants.commonDF
@@ -66,14 +64,15 @@ class HomeViewController: UIViewController {
         targetCalCount = Double(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + currentDate))
         consumedLbl.text = String(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.consumed + currentDate)) + " \(Constants.labelStrings.cals)"
         targetLbl.text = "\(Constants.labelStrings.target) " + String(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + currentDate)) + " \(Constants.labelStrings.cals)"
+        
         spentCalCount = Double(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + currentDate))
         stepsCount = Int(UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.steps + currentDate))
         
-        if (0 == UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + currentDate)) {
+        if UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.target + currentDate) == 0 {
             consumedProgressNumberLabel.text = Constants.progressStrings.progressZero
             burntProgressNumberLabel.text = Constants.progressStrings.progressZero
         } else {
-            if (0 == UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + currentDate)) {
+            if UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.spent + currentDate) == 0 {
                 burntProgressNumberLabel.text = Constants.progressStrings.progressZero
             } else {
                 if Int(spentCalCount * 100 / (targetCalCount)) < 100 {
@@ -88,7 +87,7 @@ class HomeViewController: UIViewController {
                 }
             }
             
-            if (0 == UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.consumed + currentDate)) {
+            if UserDefaults.standard.integer(forKey: Constants.userDefaultKeys.consumed + currentDate) == 0 {
                 consumedProgressNumberLabel.text = Constants.progressStrings.progressZero
             } else {
                 if Int(consumedCalCount * 100 / (targetCalCount)) < 100 {
@@ -104,14 +103,14 @@ class HomeViewController: UIViewController {
             }
             
             stepsLbl.text = String(stepsCount)
-            spentLbl.text = String(Int(spentCalCount))
+            spentLbl.text = "\((Int(spentCalCount))) \(Constants.labelStrings.cals)"
             
-            if (consumedCalCount > spentCalCount) {
+            if consumedCalCount > spentCalCount {
                 netCalCount = consumedCalCount - spentCalCount
             } else {
                 netCalCount =  spentCalCount - consumedCalCount
             }
-            netLbl.text = "\(Constants.labelStrings.netCals) " + String(Int(netCalCount))
+            netLbl.text = "\(Constants.labelStrings.netCals) " + String(Int(netCalCount)) + " \(Constants.labelStrings.cals)"
             
             consumedCalCount += 1
             let newConsumedAngleValue = angleCalc.newAngleConsumed(consumed: consumedCalCount, target: targetCalCount)

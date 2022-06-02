@@ -30,7 +30,7 @@ class SettingsViewController: UIViewController {
     
     func setupInitialData(){
         formatter.dateFormat = Constants.commonDF
-        if(UserDefaults.standard.bool(forKey: Constants.userDefaultKeys.faceID)) {
+        if UserDefaults.standard.bool(forKey: Constants.userDefaultKeys.faceID) {
             enableDisableTouchIDSwitch.setOn(true, animated: true)
         } else {
             enableDisableTouchIDSwitch.setOn(false, animated: false)

@@ -12,6 +12,7 @@ import UIKit
 struct Constants {
     
     static let commonDF = "MM.dd.yyyy"
+    static let caloriePerStep = 1
     
     struct customCells {
         static let historyViewCellIdentifier = "historyViewCell"

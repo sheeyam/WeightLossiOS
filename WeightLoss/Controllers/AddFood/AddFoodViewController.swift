@@ -93,7 +93,6 @@ class AddFoodViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
                 for con in consumptionData {
                     totalSum += con.foodCalorie
                 }
-                print(totalSum)
             }
         } catch let err as NSError {
             print(err.debugDescription)

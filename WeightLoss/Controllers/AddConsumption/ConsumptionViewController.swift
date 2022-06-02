@@ -25,7 +25,7 @@ class ConsumptionViewController: UIViewController {
     var consumption: [NSManagedObject] = []
     var foodData: [FoodModel] = []
     var index: Int = -1
-    var op: String = Constants.operations.add
+    var operation: String = Constants.operations.add
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +99,7 @@ class ConsumptionViewController: UIViewController {
     }
     
     func goToAddNewFoodVC() {
-        op = Constants.operations.add
+        operation = Constants.operations.add
         self.performSegue(withIdentifier: Constants.segues.consumptionToAddnew, sender: self)
     }
     
@@ -112,8 +112,8 @@ class ConsumptionViewController: UIViewController {
             let DestViewController = segue.destination as! UINavigationController
             let targetController = DestViewController.topViewController as! AddNewFoodViewController
             targetController.mealTime = mealTime
-            targetController.operation = op
-            if op == Constants.operations.update {
+            targetController.operation = operation
+            if operation == Constants.operations.update {
                 targetController.consumptionItem = foodData[index]
             }
             targetController.callback = {
@@ -132,8 +132,6 @@ class ConsumptionViewController: UIViewController {
                     self.fillArrays()
                 }
             }
-        } else {
-            //Do Nothing
         }
     }
     
@@ -199,6 +197,14 @@ class ConsumptionViewController: UIViewController {
 }
 
 extension ConsumptionViewController {
+    func deleteFood(idx: Int) {
+        let foodToBeDeleted = foodData[idx]
+        deleteData(name:foodToBeDeleted.foodName)
+        var data = foodData.filter({$0.foodType.uppercased() == mealTime.uppercased()})
+        data.remove(at: idx)
+        self.fillAndReload()
+    }
+    
     func deleteData(name : String){
         guard let appDelegate = UIApplication.shared.delegate
             as? AppDelegate else {
@@ -214,7 +220,6 @@ extension ConsumptionViewController {
         
         do {
             try context.save()
-            fillArrays()
         } catch let error as NSError{
             print("\(error), \(error.userInfo)")
         }
